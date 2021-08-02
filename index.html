@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" sizes="16x16" href="./favicon16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="./favicon32.png">
+  <script type="text/javascript" src="brython.min.js"></script>
+  <script type="text/javascript" src="brython_modules.js"></script>
+  <link rel="stylesheet" type="text/css" href="./style.css">
+  <title>ذكر الذكر - مراجعة حفظ القرءان الكريم</title>
+  <base target="recite" href="/recite/index.html">
+</head>
+<body onload="brython(1)">
+  <script type="text/python" src="../zz/zz.py"></script>  <!-- b/c <base target> -->
+
+  <input type="checkbox" id="dark_chk" checked hidden>
+  <input type="checkbox" id="taj_chk" checked hidden>
+
+  <div id="page">
+    <center id="records">
+      <a role="button" id="import">استيراد&nbsp;سجلات&nbsp;الحفظ</a>
+      <a role="button" id="export">تصدير&nbsp;سجلات&nbsp;الحفظ</a>
+    </center>
+    <center id="prefs">
+      <!-- apparently I can't change `aria-checked="true"` through Brython. -->
+      <a role="checkbox" id="dark_btn">ليلي</a>
+      <a role="checkbox" id="taj_btn">تَ<span class="qalqala">جْ</span>وِ<span class="madd">ي</span><span class="qalqala">د</span>ٌ</a>
+    </center>
+    <section id="now" hidden>
+      <h2>الآيات المقررة اليوم</h2>
+      <div id="nowcards" class="list">
+      </div>
+      <hr>
+    </section>
+    <section id="all">
+    <h2>جميع الآيات</h2>
+      <div id="allcards" class="list">
+      </div>
+      <div style="margin-top: 3em"></div> <!-- for #serial below -->
+    </section>
+    <div id="info">&nbsp;</div>
+  </div>
+
+  <div id="pop" hidden>
+    <div id="msg"></div>
+    <div id="grading">
+      <a role="button" id="q5">حفظ&nbsp;ممتاز</a>
+      <a role="button" id="q4">صحيح&nbsp;مع&nbsp;تردد</a>
+      <a role="button" id="q3">صحيح&nbsp;بمشقة</a>
+      <a role="button" id="q2">بأخطاء&nbsp;يسيرة</a>
+      <a role="button" id="q1">بأخطاء&nbsp;كبيرة</a>
+      <a role="button" id="q0">نسيان&nbsp;تام</a><br>
+      <a role="button" id="dismiss">تجاهل</a>
+    </div>
+  </div>
+
+  <iframe id="recite" name="recite" hidden></iframe>
+
+  <div id="serial" hidden></div>
+
+</body>
+</html>
+

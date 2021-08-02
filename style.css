@@ -1,0 +1,131 @@
+/* all colors must have at least 3:1 contrast ratio. */
+/* https://webaim.org/resources/contrastchecker/ */
+html {  /* light */
+  --fgcolor: #222;
+  --bgcolor: #e8e8e8;
+  --nameclr: #aa0000;
+}
+#dark_chk:checked ~ * {  /* dark */
+  --fgcolor: #eee;
+  --bgcolor: #222;
+  --nameclr: #ff6666;
+}
+#info {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  border-top: 0.2em solid var(--fgcolor);
+}
+/***/
+#dark_chk:checked ~ *     a { background-color: hsl(  0,   0%, 50%) }
+#dark_chk:checked ~ * .ef13 { background-color: hsl(  0, 100%, 44%) }
+#dark_chk:checked ~ * .ef14 { background-color: hsl( 10, 100%, 42%) }
+#dark_chk:checked ~ * .ef15 { background-color: hsl( 20, 100%, 40%) }
+#dark_chk:checked ~ * .ef16 { background-color: hsl( 30, 100%, 38%) }
+#dark_chk:checked ~ * .ef17 { background-color: hsl( 40, 100%, 36%) }
+#dark_chk:checked ~ * .ef18 { background-color: hsl( 50, 100%, 31%) }
+#dark_chk:checked ~ * .ef19 { background-color: hsl( 60, 100%, 27%) }
+#dark_chk:checked ~ * .ef20 { background-color: hsl( 70, 100%, 27%) }
+#dark_chk:checked ~ * .ef21 { background-color: hsl( 80, 100%, 27%) }
+#dark_chk:checked ~ * .ef22 { background-color: hsl( 90, 100%, 26%) }
+#dark_chk:checked ~ * .ef23 { background-color: hsl(100, 100%, 24%) }
+#dark_chk:checked ~ * .ef24 { background-color: hsl(110, 100%, 22%) }
+#dark_chk:checked ~ * .ef25 { background-color: hsl(120, 100%, 20%) }
+#dark_chk:checked ~ * a:hover  { filter: brightness(1.33) }
+#dark_chk:checked ~ * a:active { filter: brightness(1.50) }
+    a { background-color: hsl(  0,   0%, 70%) }
+.ef13 { background-color: hsl(  0, 100%, 59%) }
+.ef14 { background-color: hsl( 10, 100%, 57%) }
+.ef15 { background-color: hsl( 20, 100%, 55%) }
+.ef16 { background-color: hsl( 30, 100%, 53%) }
+.ef17 { background-color: hsl( 40, 100%, 51%) }
+.ef18 { background-color: hsl( 50, 100%, 46%) }
+.ef19 { background-color: hsl( 60, 100%, 42%) }
+.ef20 { background-color: hsl( 70, 100%, 42%) }
+.ef21 { background-color: hsl( 80, 100%, 42%) }
+.ef22 { background-color: hsl( 90, 100%, 41%) }
+.ef23 { background-color: hsl(100, 100%, 39%) }
+.ef24 { background-color: hsl(110, 100%, 37%) }
+.ef25 { background-color: hsl(120, 100%, 35%) }
+a:hover  { filter: brightness(0.90); cursor: pointer }
+a:active { filter: brightness(0.75); cursor: pointer }
+/* scrolllock, based on the answers on: https://stackoverflow.com/q/28411499 */
+.scrolllock { overflow-y: hidden; max-height: 100% }
+.scrolllock #page { filter: blur(0.2em) }
+/* taj_chk button */
+                      .qalqala { color: #08c }
+#dark_chk:checked ~ * .qalqala { color: #9cf }
+                      .madd { color: #d70 }
+#dark_chk:checked ~ * .madd { color: #fb0 }
+* {
+  font-family: "Noto Kufic Arabic";
+  font-weight: bold;
+  background-color: var(--bgcolor);
+  color: var(--fgcolor);
+}
+html, body { margin: 0; padding: 0 }
+#page { position: absolute; top: 0; right: 0; min-width: 100%; min-height: 100%; }
+h2 { text-align: center }
+a {
+  display: inline-block;
+  width: 2em;
+  margin: 0.25em 0.125em;
+  padding: 0 0.5em;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 0.25em;
+}
+#records { margin: 0; margin-top: 0.75em  }
+#records a { width: 11em; margin: 0.25 0.25em; }
+.list {
+  /* width: calc( 7.2em + round( 10em, 3.25em )); */
+  width: min( 90%, 46.3em );
+  margin: auto;  /* center */
+}
+.list div { display: inline-block; min-width: 49%; }
+.list div span { float: right; display: inline-block; }
+.list div span:nth-child(2) { width: calc( 100% - 7.2em ); }
+.list div span:first-child {
+  clear: both;
+  width: 6.2em;
+  padding-right: 1em;
+  font-weight: bold;
+  color: var(--nameclr);
+}
+#recite {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+#pop {
+  font-size: calc(1em + 1.8vmin);
+  text-align: center;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  transition: opacity 0.5s;
+  opacity: 0;
+}
+                    #pop { background-color: rgba(255,255,255,0.90) }
+#dark_chk:checked ~ #pop { background-color: rgba(  0,  0,  0,0.75) }
+#msg {
+  background-color: transparent;
+  margin: 3vh 1vmin;
+}
+#pop a { width: 9em }
+#grading {
+  background-color: transparent;
+  max-width: calc( 3 * 9.125em ); /* more than the width of three #pop a */
+  margin: auto;
+}
+#prefs a { width: 5em }
+#prefs a span { background-color: inherit }
+/* all the following content is following by U+2003 EM SPACE */
+#dark_chk:checked      ~ #page #dark_btn::before { content: "✔️ "; color: transparent; text-shadow: 0 0 var(--fgcolor) }
+#dark_chk:not(checked) ~ #page #dark_btn::before { content: "❌ "; color: transparent; text-shadow: 0 0 var(--fgcolor) }
+#taj_chk:checked       ~ #page #taj_btn::before  { content: "✔️ "; color: transparent; text-shadow: 0 0 var(--fgcolor) }
+#taj_chk:not(checked)  ~ #page #taj_btn::before  { content: "❌ "; color: transparent; text-shadow: 0 0 var(--fgcolor) }
