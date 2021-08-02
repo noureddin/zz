@@ -8,20 +8,21 @@ from browser.local_storage import storage
 from browser.timer import set_timeout, set_interval
 import time
 
-_arabtrans = str.maketrans('0123456789', '٠١٢٣٤٥٦٧٨٩')
+__arabtrans = str.maketrans('0123456789', '٠١٢٣٤٥٦٧٨٩')
 def arabnum(n):
-  return str(n).translate(_arabtrans)
+  return str(n).translate(__arabtrans)
 
 # }}}
 
 # darkmode, audio recitation (to-do), quiz mode (Enter vs TXT; to-do)
-otherparams = '&zz&mv=r&d'
+otherparams = '&zz'
 
 def update_otherparams():
   global otherparams
-  otherparams = '&zz&mv=r'
-  otherparams += '&d' if d['dark_chk'].checked else ''
-  otherparams += '&c=n' if not d['taj_chk'].checked else ''
+  otherparams = '&zz'
+  otherparams += '&mv=' + storage['mvbtns']
+  otherparams += '&d' if not load_bool('light') else ''
+  otherparams += '&c=n' if load_bool('notajweed') else ''
 
 
 FIRST_TIME_INTERVAL = 6
@@ -185,7 +186,7 @@ class Mem:
       pass
     #
     self.__lastreview = hr_now()
-    grade_complment = 5 - grade
+    grade_complement = 5 - grade
     self.efactor += 0.1 - grade_complement * (0.08 + grade_complement * 0.02)
 
 class Card(Mem):
@@ -418,8 +419,32 @@ def fmt_sura(s, rukus):
   label = arabnum(s+1) + " " + names[s] + ":"
   return f"<div><span>{label}</span><span>{cards}</span></div>\n" if cards else ""
 
+def update_prefs():
+  # mvbtns
+  if 'mvbtns' not in storage:
+    storage['mvbtns'] = 'b'
+  d['mvbtns_' + storage['mvbtns']].style.display = 'block'
+  #
+  # light  & notajweed
+  if 'light' in storage:       d['dark_chk'].checked = False
+  if 'notajweed' in storage:   d['taj_chk'].checked = False
+
+
+def load_bool(name):
+  return name in storage and bool(storage[name])
+
+def store_bool(name, b):
+  if b:
+    storage[name] = "Yes"
+  else:
+    if name in storage:
+      del storage[name]
+
+
+
 def onload():
   # add cards
+  update_prefs()
   update_otherparams()  # reloading keeps the checkboxes' values
   update_cards()
   set_interval(update_cards, 5*60*1000)  # every 5 minutes
@@ -469,11 +494,23 @@ def onload():
   @bind(d['dark_btn'], 'click')
   def __dark_btn_click(ev):
     d['dark_chk'].checked ^= 1  # toggle
+    store_bool('light', not d['dark_chk'].checked)
     update_href_params()
   #
   @bind(d['taj_btn'], 'click')
   def __taj_btn_click(ev):
     d['taj_chk'].checked ^= 1  # toggle
+    store_bool('notajweed', not d['taj_chk'].checked)
+    update_href_params()
+  #
+  @bind('#mvbtns > a', 'click')
+  def __mvbtns_btn_click(ev):
+    if   ev.target.id == 'mvbtns_b': old = 'b'; new = 'r'
+    elif ev.target.id == 'mvbtns_r': old = 'r'; new = 'l'
+    elif ev.target.id == 'mvbtns_l': old = 'l'; new = 'b'
+    d['mvbtns_' + old].style.display = 'none'
+    d['mvbtns_' + new].style.display = 'block'
+    storage['mvbtns'] = new
     update_href_params()
 
 onload()

@@ -77,7 +77,7 @@ a {
   border-radius: 0.25em;
 }
 #records { margin: 0; margin-top: 0.75em  }
-#records a { width: 11em; margin: 0.25 0.25em; }
+#records a { width: 11em; margin: 0.25em 0.125em; }
 .list {
   /* width: calc( 7.2em + round( 10em, 3.25em )); */
   width: min( 90%, 46.3em );
@@ -122,8 +122,9 @@ a {
   max-width: calc( 3 * 9.125em ); /* more than the width of three #pop a */
   margin: auto;
 }
-#prefs a { width: 5em }
 #prefs a span { background-color: inherit }
+#prefs a { width: 5em; margin: 0.25em 0.125em; }
+#prefs .mvbtns_btn { width: 14em; display: none }
 /* all the following content is following by U+2003 EM SPACE */
 #dark_chk:checked      ~ #page #dark_btn::before { content: "✔️ "; color: transparent; text-shadow: 0 0 var(--fgcolor) }
 #dark_chk:not(checked) ~ #page #dark_btn::before { content: "❌ "; color: transparent; text-shadow: 0 0 var(--fgcolor) }

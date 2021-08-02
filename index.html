@@ -18,15 +18,23 @@
   <input type="checkbox" id="taj_chk" checked hidden>
 
   <div id="page">
+
     <center id="records">
       <a role="button" id="import">استيراد&nbsp;سجلات&nbsp;الحفظ</a>
       <a role="button" id="export">تصدير&nbsp;سجلات&nbsp;الحفظ</a>
     </center>
     <center id="prefs">
+      <div role="listbox" id="mvbtns">
+        <a role="option" class="mvbtns_btn" id="mvbtns_r">موضع أزار التسميع:&nbsp; اليمين&nbsp;&nbsp;&nbsp;➡️</a>
+        <a role="option" class="mvbtns_btn" id="mvbtns_l">موضع أزار التسميع:&nbsp; اليسار&nbsp;&nbsp;&nbsp;⬅️</a>
+        <a role="option" class="mvbtns_btn" id="mvbtns_b">موضع أزار التسميع:&nbsp; الأسفل&nbsp;&nbsp;⬇️</a>
+        <!-- one more space for the first two to make the arrows in almost the same place. -->
+      </div>
       <!-- apparently I can't change `aria-checked="true"` through Brython. -->
       <a role="checkbox" id="dark_btn">ليلي</a>
       <a role="checkbox" id="taj_btn">تَ<span class="qalqala">جْ</span>وِ<span class="madd">ي</span><span class="qalqala">د</span>ٌ</a>
     </center>
+
     <section id="now" hidden>
       <h2>الآيات المقررة اليوم</h2>
       <div id="nowcards" class="list">
