@@ -309,15 +309,15 @@ def deserialize(serial):
 def show_info(r=None):
   if r is None:
     r = int(d['msg'].dataset['r'])
-  d['info'].html = arabnum(f"""
-      {rukuinfo[r].sura_name}    &emsp;
-      {rukuinfo[r].ruku_num}
-     ({rukuinfo[r].ifrom})       &emsp;
-      {rukuinfo[r].repitition}   &emsp;
-      {rukuinfo[r].efactor:g}    &emsp;
-      {rukuinfo[r].interval}     &emsp;
-      {rukuinfo[r].lastreview}   &emsp;
-    """)
+  print(
+      rukuinfo[r].sura_name,
+      rukuinfo[r].ruku_num,
+      rukuinfo[r].ifrom,      '---',
+      rukuinfo[r].repitition,
+      rukuinfo[r].efactor,    '---',
+      rukuinfo[r].interval,
+      rukuinfo[r].lastreview
+  )
 
 @bind(w, 'contextmenu')
 def xyzzzzz(ev):

@@ -10,13 +10,6 @@ html {  /* light */
   --bgcolor: #222;
   --nameclr: #ff6666;
 }
-#info {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  text-align: center;
-  border-top: 0.2em solid var(--fgcolor);
-}
 /***/
 #dark_chk:checked ~ *     a { background-color: hsl(  0,   0%, 50%) }
 #dark_chk:checked ~ * .ef13 { background-color: hsl(  0, 100%, 44%) }
