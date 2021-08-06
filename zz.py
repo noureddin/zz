@@ -427,6 +427,7 @@ def update_prefs():
   if 'mvbtns' not in storage:
     storage['mvbtns'] = 'b'
   d['mvbtns_' + storage['mvbtns']].style.display = 'block'
+  d['mvbtns_x'].style.display = 'none'
   #
   # light  & notajweed
   if 'light' in storage:       d['dark_chk'].checked = False
