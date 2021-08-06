@@ -344,6 +344,8 @@ rukuinfo = load_rukuinfo() or compute_rukuinfo()
 
 # }}}
 
+LastOne = None
+
 def nowcards(s):
   now = hr_now()
   return [ r for r in rukus_of_sura[s] if rukuinfo[r].isdue(now) ]
@@ -408,7 +410,8 @@ def update_href_params():
 
 def fmt_cell(r):
   card = rukuinfo[r]
-  color = f' class="ef{round(card.efactor * 10)}"' if card.ismemoed() else ''
+  last = ' lastone' if card is LastOne else ''
+  color = f' class="ef{round(card.efactor * 10)}{last}"' if card.ismemoed() else ''
   #
   return f"""<a role="button" data-r="{r}" {color}
              title="تسميع سورة {card.sura_name} من الآية {card.afrom} إلى الآية {card.ato}"
@@ -481,6 +484,8 @@ def onload():
   d['dismiss'].bind('click', hide_pop)
   #
   def set_ef(r, q):
+    global LastOne
+    LastOne = rukuinfo[r]
     rukuinfo[r].update_parameters(q)
     update_cards()
     save_rukuinfo(rukuinfo)

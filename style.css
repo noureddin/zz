@@ -11,6 +11,18 @@ html {  /* light */
   --nameclr: #ff6666;
 }
 /***/
+.lastone {
+  box-shadow: 0 0 0.3em #0000FF,
+              0 0 0.1em black,
+              0 0 0.1em black;
+}
+#dark_chk:checked ~ * .lastone {
+  box-shadow: 0 0 0.3em #6666FF,
+              0 0 0.3em #6666FF,
+              0 0 0.1em black,
+              0 0 0.1em white;
+}
+/***/
 #dark_chk:checked ~ *     a { background-color: hsl(  0,   0%, 50%) }
 #dark_chk:checked ~ * .ef13 { background-color: hsl(  0, 100%, 44%) }
 #dark_chk:checked ~ * .ef14 { background-color: hsl( 10, 100%, 42%) }
