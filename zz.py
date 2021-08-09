@@ -371,6 +371,29 @@ def hide_pop(_=0):
   set_timeout(_real_hide, 500)
   show_info()
 
+def set_ef(r, q):
+  global LastOne
+  LastOne = rukuinfo[r]
+  rukuinfo[r].update_parameters(q)
+  update_cards()
+  save_rukuinfo(rukuinfo)
+  hide_pop()
+
+@bind(d.body, 'keyup')
+def __kb(ev):
+  if d['pop'].hidden:
+    return  # only handle keyups on #pop
+  if ev.shiftKey or ev.ctrlKey or ev.altKey:
+    return  # Ignore if a modifier is used (e.g., Ctrl+0 is Reset Zoom)
+  elif ev.key == '0' or ev.key == 'Escape':  hide_pop()
+  elif ev.key == '1':  set_ef(int(d['msg'].dataset['r']), 5)
+  elif ev.key == '2':  set_ef(int(d['msg'].dataset['r']), 4)
+  elif ev.key == '3':  set_ef(int(d['msg'].dataset['r']), 3)
+  elif ev.key == '4':  set_ef(int(d['msg'].dataset['r']), 2)
+  elif ev.key == '5':  set_ef(int(d['msg'].dataset['r']), 1)
+  else:  pass  # do nothing
+
+
 def recite_btn(ev):
   r = int(ev.target.dataset['r'])
   card = rukuinfo[r]
@@ -483,14 +506,6 @@ def onload():
   # functionalize the grading buttons 
   #
   d['dismiss'].bind('click', hide_pop)
-  #
-  def set_ef(r, q):
-    global LastOne
-    LastOne = rukuinfo[r]
-    rukuinfo[r].update_parameters(q)
-    update_cards()
-    save_rukuinfo(rukuinfo)
-    hide_pop()
   #
   for i in range(6):
     d[f'q{i}'].bind('click', lambda e, i=i: set_ef(int(d['msg'].dataset['r']), i))

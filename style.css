@@ -55,6 +55,29 @@ html {  /* light */
 .ef25 { background-color: hsl(120, 100%, 35%) }
 a:hover  { filter: brightness(0.90); cursor: pointer }
 a:active { filter: brightness(0.75); cursor: pointer }
+/***/
+#grading a { position: relative }
+#grading span {
+  position: absolute;
+  background-color: rgba(0,0,0,0.15);
+  font-size: 67%;
+  top: 0;
+  left: 0;
+  padding: 0 0.5em;
+  border-radius: 0.37em;
+}
+/* light */ #grading #q5 { background-color: #50c050 }
+/* light */ #grading #q4 { background-color: #68b068 }
+/* light */ #grading #q3 { background-color: #80a080 }
+/* light */ #grading #q2 { background-color: #a08080 }
+/* light */ #grading #q1 { background-color: #b06868 }
+/* light */ #grading #q0 { background-color: #c05050 }
+#dark_chk:checked ~ * #grading #q5 { background-color: #40a040 }
+#dark_chk:checked ~ * #grading #q4 { background-color: #60a060 }
+#dark_chk:checked ~ * #grading #q3 { background-color: #709070 }
+#dark_chk:checked ~ * #grading #q2 { background-color: #907070 }
+#dark_chk:checked ~ * #grading #q1 { background-color: #a06060 }
+#dark_chk:checked ~ * #grading #q0 { background-color: #a04040 }
 /* scrolllock, based on the answers on: https://stackoverflow.com/q/28411499 */
 .scrolllock { overflow-y: hidden; max-height: 100% }
 .scrolllock #page { filter: blur(0.2em) }
