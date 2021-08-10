@@ -14,6 +14,7 @@
 <body onload="brython(1)">
   <script type="text/python" src="../zz/zz.py"></script>  <!-- b/c <base target> -->
 
+  <input type="checkbox" id="txt_chk" hidden>
   <input type="checkbox" id="dark_chk" checked hidden>
   <input type="checkbox" id="taj_chk" checked hidden>
 
@@ -32,6 +33,7 @@
         <!-- one more space for the first two to make the arrows in almost the same place. -->
       </div>
       <!-- apparently I can't change `aria-checked="true"` through Brython. -->
+      <a role="checkbox" id="txt_btn"></a>
       <a role="checkbox" id="dark_btn">ليلي</a>
       <a role="checkbox" id="taj_btn">تَ<span class="qalqala">جْ</span>وِ<span class="madd">ي</span><span class="qalqala">د</span>ٌ</a>
     </center>

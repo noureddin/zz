@@ -150,12 +150,19 @@ a {
   max-width: calc( 3 * 9.125em ); /* more than the width of three #pop a */
   margin: auto;
 }
+
 #prefs a span { background-color: inherit }
 #prefs a { width: 5em; margin: 0.25em 0.125em; }
 #prefs .mvbtns_btn { display: none; width: 14em }
 #prefs #mvbtns_x   { display: block }
-/* all the following content is following by U+2003 EM SPACE */
+#prefs #txt_btn { display: block; width: 14em }
+
+/* all the following content is followed by U+2003 EM SPACE */
 #dark_chk:checked      ~ #page #dark_btn::before { content: "✔️ "; color: transparent; text-shadow: 0 0 var(--fgcolor) }
 #dark_chk:not(checked) ~ #page #dark_btn::before { content: "❌ "; color: transparent; text-shadow: 0 0 var(--fgcolor) }
 #taj_chk:checked       ~ #page #taj_btn::before  { content: "✔️ "; color: transparent; text-shadow: 0 0 var(--fgcolor) }
 #taj_chk:not(checked)  ~ #page #taj_btn::before  { content: "❌ "; color: transparent; text-shadow: 0 0 var(--fgcolor) }
+
+#txt_chk:not(checked)  ~ #page #txt_btn::before { content: "وضع التسميع: عثماني (لا كتابة)" }
+/* the following content is using NBSP before and after the word "إملائي" */
+#txt_chk:checked       ~ #page #txt_btn::before { content: "وضع التسميع:    إملائي   (كتابة)" }

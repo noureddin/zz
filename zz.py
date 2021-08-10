@@ -23,6 +23,7 @@ def update_otherparams():
   otherparams += '&mv=' + storage['mvbtns']
   otherparams += '&d' if not load_bool('light') else ''
   otherparams += '&c=n' if load_bool('notajweed') else ''
+  otherparams += '&txt' if load_bool('txt') else ''
 
 
 FIRST_TIME_INTERVAL = 6
@@ -452,7 +453,8 @@ def update_prefs():
   d['mvbtns_' + storage['mvbtns']].style.display = 'block'
   d['mvbtns_x'].style.display = 'none'
   #
-  # light  & notajweed
+  # checkboxes
+  if 'txt' in storage:         d['txt_chk'].checked = True
   if 'light' in storage:       d['dark_chk'].checked = False
   if 'notajweed' in storage:   d['taj_chk'].checked = False
 
@@ -510,7 +512,13 @@ def onload():
   for i in range(6):
     d[f'q{i}'].bind('click', lambda e, i=i: set_ef(int(d['msg'].dataset['r']), i))
   #
-  # functionalize the dark & color buttons
+  # functionalize the checkbox buttons
+  #
+  @bind(d['txt_btn'], 'click')
+  def __txt_btn_click(ev):
+    d['txt_chk'].checked ^= 1  # toggle
+    store_bool('txt', d['txt_chk'].checked)
+    update_href_params()
   #
   @bind(d['dark_btn'], 'click')
   def __dark_btn_click(ev):
