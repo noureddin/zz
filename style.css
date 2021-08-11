@@ -19,7 +19,7 @@ html {  /* light */
 #dark_chk:checked ~ * .lastone {
   box-shadow: 0 0 0.3em #6666FF,
               0 0 0.3em #6666FF,
-              0 0 0.1em black,
+              0 0 0.1em white,
               0 0 0.1em white;
 }
 /***/
@@ -155,7 +155,7 @@ a {
 #prefs a { width: 5em; margin: 0.25em 0.125em; }
 #prefs .mvbtns_btn { display: none; width: 14em }
 #prefs #mvbtns_x   { display: block }
-#prefs #txt_btn { display: block; width: 14em }
+#prefs #txt_btn { display: block; width: 14em; margin-top: 0.5em }
 
 /* all the following content is followed by U+2003 EM SPACE */
 #dark_chk:checked      ~ #page #dark_btn::before { content: "✔️ "; color: transparent; text-shadow: 0 0 var(--fgcolor) }
