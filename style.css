@@ -203,3 +203,5 @@ a {
 a {
  user-select: none;  /* because it selects on long tap */
 }
+
+hr { color:#aaa }
