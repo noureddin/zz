@@ -1,4 +1,4 @@
-# imports & arabtrans {{{
+# imports & arabtrans {{{1
 
 from browser import document as d
 from browser import html as t
@@ -12,9 +12,8 @@ __arabtrans = str.maketrans('0123456789', '٠١٢٣٤٥٦٧٨٩')
 def arabnum(n):
   return str(n).translate(__arabtrans)
 
-# }}}
+# url parameters {{{1
 
-# darkmode, audio recitation (to-do), quiz mode (Enter vs TXT; to-do)
 otherparams = '&zz'
 
 def update_otherparams():
@@ -26,10 +25,40 @@ def update_otherparams():
   otherparams += '&txt' if load_bool('txt') else ''
   d['free'].href = '?' + otherparams[4:]  # remove &zz& from the start
 
+def update_href_params():
+  update_otherparams()
+  for a in d.select('a[data-r]'):
+    a.href = url_for_card(int(a.dataset['r']))
+
+
+# local storage {{{1
+
+def update_prefs():
+  # mvbtns
+  if 'mvbtns' not in storage:
+    storage['mvbtns'] = 'b'
+  d['mvbtns_' + storage['mvbtns']].style.display = 'block'
+  d['mvbtns_x'].style.display = 'none'
+  #
+  # checkboxes
+  if 'txt' in storage:         d['txt_chk'].checked = True
+  if 'light' in storage:       d['dark_chk'].checked = False
+  if 'notajweed' in storage:   d['taj_chk'].checked = False
+
+
+def load_bool(name):
+  return name in storage and bool(storage[name])
+
+def store_bool(name, b):
+  if b:
+    storage[name] = "Yes"
+  else:
+    if name in storage:
+      del storage[name]
+
+# static data: name, lengths, and rukus_of_sura {{{1
 
 FIRST_TIME_INTERVAL = 6
-
-# name, lengths, and rukus_of_sura {{{
 
 names = [ 'الفاتحة', 'البقرة', 'آل&nbsp;عمران', 'النساء', 'المائدة', 'الأنعام', 'الأعراف', 'الأنفال', 'التوبة', 'يونس', 'هود', 'يوسف', 'الرعد', 'إبراهيم', 'الحجر', 'النحل', 'الإسراء', 'الكهف', 'مريم', 'طه', 'الأنبياء', 'الحج', 'المؤمنون', 'النور', 'الفرقان', 'الشعراء', 'النمل', 'القصص', 'العنكبوت', 'الروم', 'لقمان', 'السجدة', 'الأحزاب', 'سبأ', 'فاطر', 'يس', 'الصافات', 'ص', 'الزمر', 'غافر', 'فصلت', 'الشورى', 'الزخرف', 'الدخان', 'الجاثية', 'الأحقاف', 'محمد', 'الفتح', 'الحجرات', 'ق', 'الذاريات', 'الطور', 'النجم', 'القمر', 'الرحمن', 'الواقعة', 'الحديد', 'المجادلة', 'الحشر', 'الممتحنة', 'الصف', 'الجمعة', 'المنافقون', 'التغابن', 'الطلاق', 'التحريم', 'الملك', 'القلم', 'الحاقة', 'المعارج', 'نوح', 'الجن', 'المزمل', 'المدثر', 'القيامة', 'الإنسان', 'المرسلات', 'النبأ', 'النازعات', 'عبس', 'التكوير', 'الانفطار', 'المطففين', 'الانشقاق', 'البروج', 'الطارق', 'الأعلى', 'الغاشية', 'الفجر', 'البلد', 'الشمس', 'الليل', 'الضحى', 'الشرح', 'التين', 'العلق', 'القدر', 'البينة', 'الزلزلة', 'العاديات', 'القارعة', 'التكاثر', 'العصر', 'الهمزة', 'الفيل', 'قريش', 'الماعون', 'الكوثر', 'الكافرون', 'النصر', 'المسد', 'الإخلاص', 'الفلق', 'الناس' ]
 
@@ -47,8 +76,6 @@ for s in range(114):
   count = len(_r[s])
   rukus_of_sura.append( list(range(start, start + count)) )
 
-# }}}
-
 # given sura_idx & ifrom (e.g., 1 & 8 for the third ruku in the Quran),
 # return ruku_idx_of_sura (e.g., 1, for the third ruku in the Quran; [(0,0), (1,0), (1,1), ...])
 def ruku_idx_of_sura(sura_idx, ifrom, *_):
@@ -57,7 +84,7 @@ def ruku_idx_of_sura(sura_idx, ifrom, *_):
       return ruku_idx
   # TODO: improve & optimize, or eliminate
 
-# encode and decode {{{
+# encode and decode {{{1
 
 BAD_CHARS  = '[]/?@'
 GOOD_CHARS = '()$!%'
@@ -113,8 +140,7 @@ def defix_ef(ef): return ef / EF_SCALE + EF_MIN
 def encode_ef(ef): return encode_int(fix_ef(ef), length=2)
 def decode_ef(ef): return defix_ef(decode_int(ef))
 
-# }}}
-# time {{{
+# time {{{1
 
 EPOCH = 1625616000
 
@@ -126,8 +152,7 @@ def hr2ts(hr):
 
 def hr_now(): return ts2hr(time.localtime())
 
-# }}}
-# compute_rukuinfo {{{
+# Mem and Card classes {{{1
 
 class Mem:
   #
@@ -222,23 +247,8 @@ class Card(Mem):
   @property
   def ruku_num(self):       return self.__ruku_sura_idx + 1
 
-# for each ruku: sura number, in-sura start aya, and in-sura end aya plus one
-# making rukus overlap inside suar
-# also save SM-2 factors: n (repitition number), ef (EF), hr (hours until next review)
-def compute_rukuinfo():
-  rukuinfo = []; i = 0
-  for s in range(114):
-    for k in range(len(_r[s])):
-      ifrom       = _r[s][k]
-      try:    ito = _r[s][k+1]
-      except: ito = lengths[s]
-      rukuinfo.append(Card(s, ifrom, ito, i, k)); i += 1
-      # n, ef, hr, lr = 0, 2.5, 0, None  # the defaults
-      # rukuinfo.append( { 'idx':(s, ifrom, ito), 'n':n, 'ef':ef, 'hr':hr, 'lr':lr } )
-  return rukuinfo
 
-# }}}
-# rukuinfo, serialize, and deserialize {{{
+# serialize and deserialize {{{1
 
 def serialize(rukuinfo):
   serial = 'ZZX' + encode_int(0)
@@ -265,6 +275,7 @@ def serialize(rukuinfo):
       serial += ZERO_CHAR
   #
   return serial
+
 
 def deserialize(serial):
   #
@@ -308,6 +319,36 @@ def deserialize(serial):
   #
   return rukuinfo
 
+# rukuinfo: compute_, save_, load_ {{{1
+
+# for each ruku: sura number, in-sura start aya, and in-sura end aya plus one
+# making rukus overlap inside suar
+# also save SM-2 factors: n (repitition number), ef (EF), hr (hours until next review)
+def compute_rukuinfo():
+  rukuinfo = []; i = 0
+  for s in range(114):
+    for k in range(len(_r[s])):
+      ifrom       = _r[s][k]
+      try:    ito = _r[s][k+1]
+      except: ito = lengths[s]
+      rukuinfo.append(Card(s, ifrom, ito, i, k)); i += 1
+      # n, ef, hr, lr = 0, 2.5, 0, None  # the defaults
+      # rukuinfo.append( { 'idx':(s, ifrom, ito), 'n':n, 'ef':ef, 'hr':hr, 'lr':lr } )
+  return rukuinfo
+
+def save_rukuinfo(rukuinfo):
+  storage['rukuinfo'] = serialize(rukuinfo)
+
+def load_rukuinfo():
+  try:
+    return deserialize(storage['rukuinfo'])
+  except KeyError:
+    return None
+
+rukuinfo = load_rukuinfo() or compute_rukuinfo()
+
+# show_info(), debug related {{{1
+
 def show_info(r=None):
   def _show(r):
     print(
@@ -328,6 +369,8 @@ def show_info(r=None):
       _show(r)
 
 
+# right-click {{{1
+
 @bind(w, 'contextmenu')
 def xyzzzzz(ev):
   if ev.target.tagName != 'A':  # b/c #msg has data-r, too
@@ -338,20 +381,8 @@ def xyzzzzz(ev):
     return True  # do nothing; ie, let the menu be invoked
   show_info(r)
   return False  # override the context menu
-  
 
-def save_rukuinfo(rukuinfo):
-  storage['rukuinfo'] = serialize(rukuinfo)
-
-def load_rukuinfo():
-  try:
-    return deserialize(storage['rukuinfo'])
-  except KeyError:
-    return None
-
-rukuinfo = load_rukuinfo() or compute_rukuinfo()
-
-# }}}
+# cards {{{1
 
 LastOne = None
 Selected = [None, None]
@@ -369,7 +400,70 @@ def cards_html(onlynowcards=False):
   else:
     return "".join(fmt_sura(s, rukus_of_sura[s]) for s in range(114))
 
-# cards functions {{{
+
+def recite_btn(ev):
+  global LastOne
+  global Selected
+  r = int(ev.target.dataset['r'])
+  LastOne = card = rukuinfo[r]
+  Selected = [None, None]
+  #
+  d['msg'].html = "كيف حال حفظك للآيات من&nbsp;{} إلى&nbsp;{} من&nbsp;سورة&nbsp;{}؟"\
+      .format(card.afrom, card.ato, card.sura_name)
+  d.body.class_name = 'scrolllock'
+  return True  # to still load the href
+
+def update_cards():
+  if not d['multimode'].hidden and has_selection():  # if multimode
+    for a in d.select('a[data-r]'):
+      if Selected[0] <= int(a.dataset['r']) <= Selected[1]:
+        a.class_name += ' selected'
+    return  # only update the class of the selected cards
+  d['allcards'].html = cards_html(onlynowcards=False)
+  #
+  nowcards = cards_html(onlynowcards=True)
+  d['nowcards'].html = nowcards
+  d['now'].hidden = nowcards == ''
+  #
+  for a in d.select('a[data-r]'):  # all cards; see fmt_cell()
+    a.bind('click', recite_btn)
+  #
+  # DEBUG:
+  # deserialize( serialize( rukuinfo ) )
+
+def url_for_card(r):
+  card = rukuinfo[r]
+  s = card.sura_num
+  return f"?{s}/{card.ifrom}-{s}/{card.ito}{otherparams}"
+
+# formatting {{{1
+
+def fmt_cell(r):
+  card = rukuinfo[r]
+  last = ' lastone' if card is LastOne or has_selection() and Selected[0] <= r <= Selected[1] else ''
+  color = f' class="ef{round(card.efactor * 10)}{last}"' if card.ismemoed() else ''
+  #
+  return f"""<a role="button" data-r="{r}" {color}
+             title="تسميع سورة {card.sura_name} من الآية {card.afrom} إلى الآية {card.ato}"
+             href="{url_for_card(r)}">{card.afrom}</a>"""
+
+def fmt_sura(s, rukus):
+  cards = "".join(fmt_cell(r) for r in rukus)
+  label = arabnum(s+1) + " " + names[s] + ":"
+  return f"<div><span>{label}</span><span>{cards}</span></div>\n" if cards else ""
+
+# onload {{{1
+
+def onload():
+  update_prefs()
+  update_otherparams()  # reloading keeps the checkboxes' values
+  update_cards()
+  set_interval(update_cards, 5*60*1000)  # every 5 minutes
+  # TODO: check requestAnimationFrame()
+
+onload()
+
+# grading {{{1
 
 def show_pop(_=0):
   d['pop'].hidden = False
@@ -416,204 +510,112 @@ def __kb(ev):
   elif ev.key == '5':  grade(1)
   else:  pass  # do nothing
 
+d['dismiss'].bind('click', hide_pop)
 
-def recite_btn(ev):
-  global LastOne
+for i in range(6):
+  d[f'q{i}'].bind('click', lambda e, i=i: grade(i))
+
+# import and export buttons {{{1
+
+@bind(d['export'], 'click')
+def export(ev=0):  # https://stackoverflow.com/q/3665115
+  filename = time.strftime('Export-%Y-%m-%d-%H%M.ZZX')
+  # blob = w.Blob.new(serialize(rukuinfo), {'type':)
+  # a = t.A(href=w.URL.createObjectURL(serialize(rukuinfo)), download='export.zz')
+  a = t.A(href='data:application/octet-stream,' + serialize(rukuinfo), download=filename)
+  d.body.appendChild(a)
+  a.click()
+  d.body.removeChild(a)
+
+@bind(d['import'], 'click')
+def import_(ev):
+  file = t.INPUT(Id='infile', Type='file')
+  # https://www.geeksforgeeks.org/how-to-read-a-local-text-file-using-javascript/
+  @bind(file, 'change')
+  def read(ev):
+    reader = w.FileReader.new()
+    @bind(reader, 'load')
+    def red(e):
+      global rukuinfo
+      rukuinfo = deserialize(reader.result)
+      update_cards()
+      save_rukuinfo(rukuinfo)
+    reader.readAsText(file.files[0])
+  file.click()
+
+# prefs buttons {{{1
+
+@bind(d['txt_btn'], 'click')
+def __txt_btn_click(ev):
+  d['txt_chk'].checked ^= 1  # toggle
+  store_bool('txt', d['txt_chk'].checked)
+  update_href_params()
+
+@bind(d['dark_btn'], 'click')
+def __dark_btn_click(ev):
+  d['dark_chk'].checked ^= 1  # toggle
+  store_bool('light', not d['dark_chk'].checked)
+  update_href_params()
+
+@bind(d['taj_btn'], 'click')
+def __taj_btn_click(ev):
+  d['taj_chk'].checked ^= 1  # toggle
+  store_bool('notajweed', not d['taj_chk'].checked)
+  update_href_params()
+
+@bind('#mvbtns > a', 'click')
+def __mvbtns_btn_click(ev):
+  if   ev.target.id == 'mvbtns_b': old = 'b'; new = 'r'
+  elif ev.target.id == 'mvbtns_r': old = 'r'; new = 'l'
+  elif ev.target.id == 'mvbtns_l': old = 'l'; new = 'b'
+  d['mvbtns_' + old].style.display = 'none'
+  d['mvbtns_' + new].style.display = 'block'
+  storage['mvbtns'] = new
+  update_href_params()
+
+# multi mode buttons {{{1
+
+def multiselect(ev):
   global Selected
-  r = int(ev.target.dataset['r'])
-  LastOne = card = rukuinfo[r]
-  Selected = [None, None]
-  #
-  d['msg'].html = "كيف حال حفظك للآيات من&nbsp;{} إلى&nbsp;{} من&nbsp;سورة&nbsp;{}؟"\
-      .format(card.afrom, card.ato, card.sura_name)
-  d.body.class_name = 'scrolllock'
-  return True  # to still load the href
-
-def update_cards():
-  if not d['multimode'].hidden and has_selection():  # if multimode
-    for a in d.select('a[data-r]'):
-      if Selected[0] <= int(a.dataset['r']) <= Selected[1]:
-        a.class_name += ' selected'
-    return  # only update the class of the selected cards
-  d['allcards'].html = cards_html(onlynowcards=False)
-  #
-  nowcards = cards_html(onlynowcards=True)
-  d['nowcards'].html = nowcards
-  d['now'].hidden = nowcards == ''
-  #
-  for a in d.select('a[data-r]'):  # all cards; see fmt_cell()
-    a.bind('click', recite_btn)
-  #
-  # DEBUG:
-  # deserialize( serialize( rukuinfo ) )
-
-# }}}
-
-def url_for_card(r):
-  card = rukuinfo[r]
-  s = card.sura_num
-  return f"?{s}/{card.ifrom}-{s}/{card.ito}{otherparams}"
-
-def update_href_params():
-  update_otherparams()
-  for a in d.select('a[data-r]'):
-    a.href = url_for_card(int(a.dataset['r']))
-
-# formatting and onload {{{
-
-def fmt_cell(r):
-  card = rukuinfo[r]
-  last = ' lastone' if card is LastOne or has_selection() and Selected[0] <= r <= Selected[1] else ''
-  color = f' class="ef{round(card.efactor * 10)}{last}"' if card.ismemoed() else ''
-  #
-  return f"""<a role="button" data-r="{r}" {color}
-             title="تسميع سورة {card.sura_name} من الآية {card.afrom} إلى الآية {card.ato}"
-             href="{url_for_card(r)}">{card.afrom}</a>"""
-
-def fmt_sura(s, rukus):
-  cards = "".join(fmt_cell(r) for r in rukus)
-  label = arabnum(s+1) + " " + names[s] + ":"
-  return f"<div><span>{label}</span><span>{cards}</span></div>\n" if cards else ""
-
-def update_prefs():
-  # mvbtns
-  if 'mvbtns' not in storage:
-    storage['mvbtns'] = 'b'
-  d['mvbtns_' + storage['mvbtns']].style.display = 'block'
-  d['mvbtns_x'].style.display = 'none'
-  #
-  # checkboxes
-  if 'txt' in storage:         d['txt_chk'].checked = True
-  if 'light' in storage:       d['dark_chk'].checked = False
-  if 'notajweed' in storage:   d['taj_chk'].checked = False
-
-
-def load_bool(name):
-  return name in storage and bool(storage[name])
-
-def store_bool(name, b):
-  if b:
-    storage[name] = "Yes"
-  else:
-    if name in storage:
-      del storage[name]
-
-
-
-def onload():
-  # add cards
-  update_prefs()
-  update_otherparams()  # reloading keeps the checkboxes' values
+  a = ev.target
+  r = int(a.dataset['r'])
+  if Selected[0] is None or r < Selected[0]: Selected[0] = r
+  if Selected[1] is None or r > Selected[1]: Selected[1] = r
   update_cards()
-  set_interval(update_cards, 5*60*1000)  # every 5 minutes
-  #
-  # functionalize the import and export buttons
-  @bind(d['export'], 'click')
-  def export(ev=0):  # https://stackoverflow.com/q/3665115
-    filename = time.strftime('Export-%Y-%m-%d-%H%M.ZZX')
-    # blob = w.Blob.new(serialize(rukuinfo), {'type':)
-    # a = t.A(href=w.URL.createObjectURL(serialize(rukuinfo)), download='export.zz')
-    a = t.A(href='data:application/octet-stream,' + serialize(rukuinfo), download=filename)
-    d.body.appendChild(a)
-    a.click()
-    d.body.removeChild(a)
-  #
-  @bind(d['import'], 'click')
-  def import_(ev):
-    file = t.INPUT(Id='infile', Type='file')
-    # https://www.geeksforgeeks.org/how-to-read-a-local-text-file-using-javascript/
-    @bind(file, 'change')
-    def read(ev):
-      reader = w.FileReader.new()
-      @bind(reader, 'load')
-      def red(e):
-        global rukuinfo
-        rukuinfo = deserialize(reader.result)
-        update_cards()
-        save_rukuinfo(rukuinfo)
-      reader.readAsText(file.files[0])
-    file.click()
-  #
-  # functionalize the grading buttons 
-  #
-  d['dismiss'].bind('click', hide_pop)
-  #
-  for i in range(6):
-    d[f'q{i}'].bind('click', lambda e, i=i: grade(i))
-  #
-  # functionalize the checkbox buttons
-  #
-  @bind(d['txt_btn'], 'click')
-  def __txt_btn_click(ev):
-    d['txt_chk'].checked ^= 1  # toggle
-    store_bool('txt', d['txt_chk'].checked)
-    update_href_params()
-  #
-  @bind(d['dark_btn'], 'click')
-  def __dark_btn_click(ev):
-    d['dark_chk'].checked ^= 1  # toggle
-    store_bool('light', not d['dark_chk'].checked)
-    update_href_params()
-  #
-  @bind(d['taj_btn'], 'click')
-  def __taj_btn_click(ev):
-    d['taj_chk'].checked ^= 1  # toggle
-    store_bool('notajweed', not d['taj_chk'].checked)
-    update_href_params()
-  #
-  @bind('#mvbtns > a', 'click')
-  def __mvbtns_btn_click(ev):
-    if   ev.target.id == 'mvbtns_b': old = 'b'; new = 'r'
-    elif ev.target.id == 'mvbtns_r': old = 'r'; new = 'l'
-    elif ev.target.id == 'mvbtns_l': old = 'l'; new = 'b'
-    d['mvbtns_' + old].style.display = 'none'
-    d['mvbtns_' + new].style.display = 'block'
-    storage['mvbtns'] = new
-    update_href_params()
-  #
-  def multiselect(ev):
-    global Selected
-    a = ev.target
-    r = int(a.dataset['r'])
-    if Selected[0] is None or r < Selected[0]: Selected[0] = r
-    if Selected[1] is None or r > Selected[1]: Selected[1] = r
-    update_cards()
-  #
-  @bind(d['multi'], 'click')
-  def __multi_btn_click(ev):
-    global Selected
-    global LastOne
-    d['altmode'].hidden = True
-    d['multimode'].hidden = False
-    LastOne = None
-    Selected = [None, None]
-    for a in d.select('a[data-r]'):  # all cards; see fmt_cell()
-      a.unbind('click')
-      del a.attrs['href']
-      a.bind('click', multiselect)
-  #
-  @bind(d['multi-start'], 'click')
-  def __multi_start_btn_click(ev):
-    d['altmode'].hidden = False
-    d['multimode'].hidden = True
-    card_from, card_to = rukuinfo[Selected[0]], rukuinfo[Selected[1]]
-    sura_from, sura_to = card_from.sura_num, card_to.sura_num
-    aaya_from, aaya_to = card_from.ifrom, card_to.ito
-    d['recite'].src = f'?{sura_from}/{aaya_from}-{sura_to}/{aaya_to}{otherparams}'
-    d.body.class_name = 'scrolllock'
-    update_cards()  # restore their normal behavior
-  #
-  @bind(d['multi-cancel'], 'click')
-  def __multi_cancel_btn_click(ev):
-    global Selected
-    d['altmode'].hidden = False
-    d['multimode'].hidden = True
-    Selected = [None, None]
-    update_cards()  # restore their normal behavior
 
-onload()
+@bind(d['multi'], 'click')
+def __multi_btn_click(ev):
+  global Selected
+  global LastOne
+  d['altmode'].hidden = True
+  d['multimode'].hidden = False
+  LastOne = None
+  Selected = [None, None]
+  for a in d.select('a[data-r]'):  # all cards; see fmt_cell()
+    a.unbind('click')
+    del a.attrs['href']
+    a.bind('click', multiselect)
 
-# }}}
+@bind(d['multi-start'], 'click')
+def __multi_start_btn_click(ev):
+  d['altmode'].hidden = False
+  d['multimode'].hidden = True
+  card_from, card_to = rukuinfo[Selected[0]], rukuinfo[Selected[1]]
+  sura_from, sura_to = card_from.sura_num, card_to.sura_num
+  aaya_from, aaya_to = card_from.ifrom, card_to.ito
+  d['recite'].src = f'?{sura_from}/{aaya_from}-{sura_to}/{aaya_to}{otherparams}'
+  d.body.class_name = 'scrolllock'
+  update_cards()  # restore their normal behavior
+
+@bind(d['multi-cancel'], 'click')
+def __multi_cancel_btn_click(ev):
+  global Selected
+  d['altmode'].hidden = False
+  d['multimode'].hidden = True
+  Selected = [None, None]
+  update_cards()  # restore their normal behavior
+
+# recite integration functions {{{1
 
 def _hide_recite():
   d['recite'].hidden = True
