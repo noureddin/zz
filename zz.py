@@ -24,6 +24,7 @@ def update_otherparams():
   otherparams += '&d' if not load_bool('light') else ''
   otherparams += '&c=n' if load_bool('notajweed') else ''
   otherparams += '&txt' if load_bool('txt') else ''
+  d['free'].href = '?' + otherparams[4:]  # remove &zz& from the start
 
 
 FIRST_TIME_INTERVAL = 6
@@ -308,17 +309,24 @@ def deserialize(serial):
   return rukuinfo
 
 def show_info(r=None):
-  if r is None:
-    r = int(d['msg'].dataset['r'])
-  print(
-      rukuinfo[r].sura_name,
-      rukuinfo[r].ruku_num,
-      rukuinfo[r].ifrom,      '---',
-      rukuinfo[r].repitition,
-      rukuinfo[r].efactor,    '---',
-      rukuinfo[r].interval,
-      rukuinfo[r].lastreview
-  )
+  def _show(r):
+    print(
+        rukuinfo[r].sura_name,
+        rukuinfo[r].ruku_num,
+        rukuinfo[r].ifrom,      '---',
+        rukuinfo[r].repitition,
+        rukuinfo[r].efactor,    '---',
+        rukuinfo[r].interval,
+        rukuinfo[r].lastreview
+    )
+  if r is not None:
+    _show(r)
+  elif LastOne is not None:
+    _show(LastOne.ruku_abs_idx)
+  elif has_selection():
+    for r in range(Selected[0], Selected[1]+1):
+      _show(r)
+
 
 @bind(w, 'contextmenu')
 def xyzzzzz(ev):
@@ -346,6 +354,10 @@ rukuinfo = load_rukuinfo() or compute_rukuinfo()
 # }}}
 
 LastOne = None
+Selected = [None, None]
+
+def has_selection(): return Selected[0] is not None and Selected[1] is not None
+
 
 def nowcards(s):
   now = hr_now()
@@ -365,6 +377,7 @@ def show_pop(_=0):
   d.body.class_name = 'scrolllock'
 
 def hide_pop(_=0):
+  update_cards()
   d.body.class_name = ''
   d['pop'].style.opacity = 0
   def _real_hide():
@@ -373,12 +386,21 @@ def hide_pop(_=0):
   show_info()
 
 def set_ef(r, q):
-  global LastOne
-  LastOne = rukuinfo[r]
   rukuinfo[r].update_parameters(q)
-  update_cards()
   save_rukuinfo(rukuinfo)
   hide_pop()
+
+def set_efs(r_from, r_to, q):
+  for r in range(r_from, r_to+1):
+    rukuinfo[r].update_parameters(q)
+  save_rukuinfo(rukuinfo)
+  hide_pop()
+
+def grade(q):
+  if LastOne:  # single mode
+    set_ef(LastOne.ruku_abs_idx, q)
+  else:  # multi mode
+    set_efs(*Selected, q)
 
 @bind(d.body, 'keyup')
 def __kb(ev):
@@ -387,25 +409,32 @@ def __kb(ev):
   if ev.shiftKey or ev.ctrlKey or ev.altKey:
     return  # Ignore if a modifier is used (e.g., Ctrl+0 is Reset Zoom)
   elif ev.key == '0' or ev.key == 'Escape':  hide_pop()
-  elif ev.key == '1':  set_ef(int(d['msg'].dataset['r']), 5)
-  elif ev.key == '2':  set_ef(int(d['msg'].dataset['r']), 4)
-  elif ev.key == '3':  set_ef(int(d['msg'].dataset['r']), 3)
-  elif ev.key == '4':  set_ef(int(d['msg'].dataset['r']), 2)
-  elif ev.key == '5':  set_ef(int(d['msg'].dataset['r']), 1)
+  elif ev.key == '1':  grade(5)
+  elif ev.key == '2':  grade(4)
+  elif ev.key == '3':  grade(3)
+  elif ev.key == '4':  grade(2)
+  elif ev.key == '5':  grade(1)
   else:  pass  # do nothing
 
 
 def recite_btn(ev):
+  global LastOne
+  global Selected
   r = int(ev.target.dataset['r'])
-  card = rukuinfo[r]
+  LastOne = card = rukuinfo[r]
+  Selected = [None, None]
   #
   d['msg'].html = "كيف حال حفظك للآيات من&nbsp;{} إلى&nbsp;{} من&nbsp;سورة&nbsp;{}؟"\
       .format(card.afrom, card.ato, card.sura_name)
-  d['msg'].dataset['r'] = r
   d.body.class_name = 'scrolllock'
   return True  # to still load the href
 
 def update_cards():
+  if not d['multimode'].hidden and has_selection():  # if multimode
+    for a in d.select('a[data-r]'):
+      if Selected[0] <= int(a.dataset['r']) <= Selected[1]:
+        a.class_name += ' selected'
+    return  # only update the class of the selected cards
   d['allcards'].html = cards_html(onlynowcards=False)
   #
   nowcards = cards_html(onlynowcards=True)
@@ -434,7 +463,7 @@ def update_href_params():
 
 def fmt_cell(r):
   card = rukuinfo[r]
-  last = ' lastone' if card is LastOne else ''
+  last = ' lastone' if card is LastOne or has_selection() and Selected[0] <= r <= Selected[1] else ''
   color = f' class="ef{round(card.efactor * 10)}{last}"' if card.ismemoed() else ''
   #
   return f"""<a role="button" data-r="{r}" {color}
@@ -510,7 +539,7 @@ def onload():
   d['dismiss'].bind('click', hide_pop)
   #
   for i in range(6):
-    d[f'q{i}'].bind('click', lambda e, i=i: set_ef(int(d['msg'].dataset['r']), i))
+    d[f'q{i}'].bind('click', lambda e, i=i: grade(i))
   #
   # functionalize the checkbox buttons
   #
@@ -541,6 +570,46 @@ def onload():
     d['mvbtns_' + new].style.display = 'block'
     storage['mvbtns'] = new
     update_href_params()
+  #
+  def multiselect(ev):
+    global Selected
+    a = ev.target
+    r = int(a.dataset['r'])
+    if Selected[0] is None or r < Selected[0]: Selected[0] = r
+    if Selected[1] is None or r > Selected[1]: Selected[1] = r
+    update_cards()
+  #
+  @bind(d['multi'], 'click')
+  def __multi_btn_click(ev):
+    global Selected
+    global LastOne
+    d['altmode'].hidden = True
+    d['multimode'].hidden = False
+    LastOne = None
+    Selected = [None, None]
+    for a in d.select('a[data-r]'):  # all cards; see fmt_cell()
+      a.unbind('click')
+      del a.attrs['href']
+      a.bind('click', multiselect)
+  #
+  @bind(d['multi-start'], 'click')
+  def __multi_start_btn_click(ev):
+    d['altmode'].hidden = False
+    d['multimode'].hidden = True
+    card_from, card_to = rukuinfo[Selected[0]], rukuinfo[Selected[1]]
+    sura_from, sura_to = card_from.sura_num, card_to.sura_num
+    aaya_from, aaya_to = card_from.ifrom, card_to.ito
+    d['recite'].src = f'?{sura_from}/{aaya_from}-{sura_to}/{aaya_to}{otherparams}'
+    d.body.class_name = 'scrolllock'
+    update_cards()  # restore their normal behavior
+  #
+  @bind(d['multi-cancel'], 'click')
+  def __multi_cancel_btn_click(ev):
+    global Selected
+    d['altmode'].hidden = False
+    d['multimode'].hidden = True
+    Selected = [None, None]
+    update_cards()  # restore their normal behavior
 
 onload()
 
@@ -552,6 +621,7 @@ def _hide_recite():
 
 def zz_ignore():
   _hide_recite()
+  update_cards()
   d.body.class_name = ''
 w.zz_ignore = zz_ignore
 

@@ -22,6 +22,14 @@ html {  /* light */
               0 0 0.1em white,
               0 0 0.1em white;
 }
+.selected {
+  box-shadow: 0 0 0 0.2em #0000FF,
+              0 0 0 0.1em black;
+}
+#dark_chk:checked ~ * .selected {
+  box-shadow: 0 0 0 0.2em #6666FF,
+              0 0 0 0.1em white;
+}
 /***/
 #dark_chk:checked ~ *     a { background-color: hsl(  0,   0%, 50%) }
 #dark_chk:checked ~ * .ef13 { background-color: hsl(  0, 100%, 44%) }
@@ -104,8 +112,33 @@ a {
   text-decoration: none;
   border-radius: 0.25em;
 }
-#records { margin: 0; margin-top: 0.75em  }
+#records { margin: 0; margin-top: 0.75em }
 #records a { width: 11em; margin: 0.25em 0.125em; }
+
+#altmode { margin: 0 }
+#altmode a { width: 9em; margin: 0.25em 0.125em }
+
+                          .faint { background: #ccc !important; color: #444444 !important; }
+#dark_chk:checked ~ #page .faint { background: #555 !important; color: #d0d0d0 !important; }
+
+#multimode {
+  position: sticky; top: 0;
+}
+
+#multimode #multi-start {
+  background: hsl( 90, 100%, 41%);  /* same as ef22 */
+  color: black;
+  /* box-shadow: 0 0 0.2em 0.1em hsl( 60, 100%, 42%);  /1* same as ef19 *1/ */
+  width: 5.5em;
+}
+
+#dark_chk:checked ~ #page #multimode #multi-start {
+  background: hsl( 90, 100%, 26%);  /* same as ef22 */
+  color: white;
+  /* box-shadow: 0 0 0.2em 0.2em hsl( 60, 100%, 27%);  /1* same as ef19 *1/ */
+}
+
+
 .list {
   /* width: calc( 7.2em + round( 10em, 3.25em )); */
   width: min( 90%, 46.3em );
