@@ -620,9 +620,13 @@ def __multi_cancel_btn_click(ev):
 
 # recite integration functions {{{1
 
+def set_title(title='ذكر الذكر - مراجعة حفظ القرءان الكريم'):  # the same in the html page
+  d.select('title')[0].html = title
+
 def _hide_recite():
   d['recite'].hidden = True
   d['recite'].src = 'about:blank'
+  set_title()  # reset to the default
 
 def zz_ignore():
   _hide_recite()
@@ -669,6 +673,9 @@ def zz_set_mvbtns(v):
   update_href_params()
 w.zz_set_mvbtns = zz_set_mvbtns
 
+def zz_set_title(title):
+  set_title(title + ' | ذكر الذكر')
+w.zz_set_title = zz_set_title
 
 
 # vim: set foldmethod=marker foldmarker={{{,}}} :
