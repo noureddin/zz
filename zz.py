@@ -372,15 +372,18 @@ def show_info(r=None):
 # right-click {{{1
 
 @bind(w, 'contextmenu')
-def xyzzzzz(ev):
+def _contextmenu(ev):
   if ev.target.tagName != 'A':  # b/c #msg has data-r, too
     return True  # do nothing; ie, let the menu be invoked
   try:
     r = int(ev.target.dataset['r'])
   except:  # not on a card
     return True  # do nothing; ie, let the menu be invoked
+  init_multiselect(ev)  # ev is ignored
+  multiselect(ev)  # looks only at ev.target
   show_info(r)
-  return False  # override the context menu
+  ev.preventDefault(); return False  # override the context menu
+  
 
 # cards {{{1
 
@@ -584,7 +587,7 @@ def multiselect(ev):
   update_cards()
 
 @bind(d['multi'], 'click')
-def __multi_btn_click(ev):
+def init_multiselect(ev):
   global Selected
   global LastOne
   d['altmode'].hidden = True

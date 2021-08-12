@@ -199,3 +199,7 @@ a {
 #txt_chk:not(checked)  ~ #page #txt_btn::before { content: "وضع التسميع: عثماني (لا كتابة)" }
 /* the following content is using NBSP before and after the word "إملائي" */
 #txt_chk:checked       ~ #page #txt_btn::before { content: "وضع التسميع:    إملائي   (كتابة)" }
+
+a {
+ user-select: none;  /* because it selects on long tap */
+}
