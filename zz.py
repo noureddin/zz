@@ -51,7 +51,7 @@ def load_bool(name):
 
 def store_bool(name, b):
   if b:
-    storage[name] = "Yes"
+    storage[name] = "Y"
   else:
     if name in storage:
       del storage[name]
