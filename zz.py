@@ -640,4 +640,35 @@ def zz_show():
   d['recite'].focus()
 w.zz_show = zz_show
 
+def zz_set_quizmode(v):
+  txt = v == 'txt'
+  d['txt_chk'].checked = txt
+  store_bool('txt', txt)
+  update_href_params()
+w.zz_set_quizmode = zz_set_quizmode
+
+def zz_set_tajweed(v):
+  taj = v == 't' # parts ('b') is considered notajweed
+  d['taj_chk'].checked = taj
+  store_bool('notajweed', not taj)
+  update_href_params()
+w.zz_set_tajweed = zz_set_tajweed
+
+def zz_set_dark(dark):
+  d['dark_chk'].checked = dark
+  store_bool('light', not dark)
+  update_href_params()
+w.zz_set_dark = zz_set_dark
+
+def zz_set_mvbtns(v):
+  d['mvbtns_b'].style.display = 'none'
+  d['mvbtns_r'].style.display = 'none'
+  d['mvbtns_l'].style.display = 'none'
+  d['mvbtns_' + v].style.display = 'block'
+  storage['mvbtns'] = v
+  update_href_params()
+w.zz_set_mvbtns = zz_set_mvbtns
+
+
+
 # vim: set foldmethod=marker foldmarker={{{,}}} :
