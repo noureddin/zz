@@ -22,6 +22,9 @@ html {  /* light */
               0 0 0.1em white,
               0 0 0.1em white;
 }
+.lastsura {
+  text-decoration: underline;
+}
 .selected {
   box-shadow: 0 0 0 0.2em #0000FF,
               0 0 0 0.1em black;

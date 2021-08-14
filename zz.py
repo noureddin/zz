@@ -453,7 +453,9 @@ def fmt_cell(r):
 def fmt_sura(s, rukus):
   cards = "".join(fmt_cell(r) for r in rukus)
   label = arabnum(s+1) + " " + names[s] + ":"
-  return f"<div><span>{label}</span><span>{cards}</span></div>\n" if cards else ""
+  cls = ' class="lastsura"' if LastOne is not None and LastOne.sura_idx == s or \
+    has_selection() and any(rukuinfo[r].sura_idx == s for r in range(Selected[0], Selected[1]+1)) else ''
+  return f"<div><span{cls}>{label}</span><span>{cards}</span></div>\n" if cards else ""
 
 # onload {{{1
 
