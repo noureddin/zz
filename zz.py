@@ -413,7 +413,6 @@ def recite_btn(ev):
   #
   d['msg'].html = "كيف حال حفظك للآيات من&nbsp;{} إلى&nbsp;{} من&nbsp;سورة&nbsp;{}؟"\
       .format(card.afrom, card.ato, card.sura_name)
-  d.body.class_name = 'scrolllock'
   return True  # to still load the href
 
 def update_cards():
@@ -642,6 +641,7 @@ def zz_done():
 w.zz_done = zz_done
 
 def zz_show():
+  d.body.class_name = 'scrolllock'
   d['recite'].hidden = False
   d['recite'].focus()
 w.zz_show = zz_show
