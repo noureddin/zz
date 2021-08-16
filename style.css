@@ -147,9 +147,9 @@ a {
   width: min( 90%, 46.3em );
   margin: auto;  /* center */
 }
-.list div { display: inline-block; min-width: 49%; }
+.list div { display: inline-block; min-width: 50%; }
 .list div span { float: right; display: inline-block; }
-.list div span:nth-child(2) { width: calc( 100% - 7.2em ); }
+.list div span:nth-child(2) { width: calc( 100% - 7.2em ) } /* 7.2 = width + padding of name */
 .list div span:first-child {
   clear: both;
   width: 6.2em;

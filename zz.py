@@ -454,7 +454,7 @@ def fmt_sura(s, rukus):
   label = arabnum(s+1) + " " + names[s] + ":"
   cls = ' class="lastsura"' if LastOne is not None and LastOne.sura_idx == s or \
     has_selection() and any(rukuinfo[r].sura_idx == s for r in range(Selected[0], Selected[1]+1)) else ''
-  return f"<div><span{cls}>{label}</span><span>{cards}</span></div>\n" if cards else ""
+  return f"<div><span{cls}>{label}</span><span>{cards}</span></div>" if cards else ""
 
 # onload {{{1
 
