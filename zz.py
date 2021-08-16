@@ -387,6 +387,7 @@ def _contextmenu(ev):
 
 # cards {{{1
 
+AllOrNow = ''  # where the last card is clicked
 LastOne = None
 Selected = [None, None]
 
@@ -407,6 +408,8 @@ def cards_html(onlynowcards=False):
 def recite_btn(ev):
   global LastOne
   global Selected
+  global AllOrNow
+  AllOrNow = ev.target.parent.parent.parent.id[:3]
   r = int(ev.target.dataset['r'])
   LastOne = card = rukuinfo[r]
   Selected = [None, None]
@@ -482,6 +485,7 @@ def hide_pop(_=0):
     d['pop'].hidden = True
   set_timeout(_real_hide, 500)
   show_info()
+  _hide_recite_end()
 
 def set_ef(r, q):
   rukuinfo[r].update_parameters(q)
@@ -624,19 +628,23 @@ def __multi_cancel_btn_click(ev):
 def set_title(title='ذكر الذكر - مراجعة حفظ القرءان الكريم'):  # the same in the html page
   d.select('title')[0].html = title
 
-def _hide_recite():
+def _hide_recite_begin():
   d['recite'].hidden = True
   d['recite'].src = 'about:blank'
   set_title()  # reset to the default
 
-def zz_ignore():
-  _hide_recite()
-  update_cards()
+def _hide_recite_end():
   d.body.class_name = ''
+  d.select(f'#{AllOrNow}cards a[data-r="{LastOne.ruku_abs_idx}"]')[0].focus()
+
+def zz_ignore():
+  _hide_recite_begin()
+  update_cards()
+  _hide_recite_end()
 w.zz_ignore = zz_ignore
 
 def zz_done():
-  _hide_recite()
+  _hide_recite_begin()
   show_pop()
 w.zz_done = zz_done
 
