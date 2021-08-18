@@ -635,7 +635,11 @@ def _hide_recite_begin():
 
 def _hide_recite_end():
   d.body.class_name = ''
-  d.select(f'#{AllOrNow}cards a[data-r="{LastOne.ruku_abs_idx}"]')[0].focus()
+  last = d.select(f'#{AllOrNow}cards a[data-r="{LastOne.ruku_abs_idx}"]')
+  if last:
+    last[0].focus()
+  else:  # happens when a now-card is removed from #nowcards.
+    pass  # I do not know what should I do then.
 
 def zz_ignore():
   _hide_recite_begin()
