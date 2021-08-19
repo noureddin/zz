@@ -23,13 +23,10 @@ def update_otherparams():
   otherparams += '&d' if not load_bool('light') else ''
   otherparams += '&c=n' if load_bool('notajweed') else ''
   otherparams += '&txt' if load_bool('txt') else ''
-  d['free'].href = '?' + otherparams[4:]  # remove &zz& from the start
 
-def update_href_params():
-  update_otherparams()
-  for a in d.select('a[data-r]'):
-    a.href = url_for_card(int(a.dataset['r']))
-
+@bind(d['free'], 'click')
+def __free_click(ev):
+  w.open('/recite/?' + otherparams[4:], '_blank')  # [4:] to remove &zz& from the start
 
 # local storage {{{1
 
@@ -373,8 +370,6 @@ def show_info(r=None):
 
 @bind(w, 'contextmenu')
 def _contextmenu(ev):
-  if ev.target.tagName != 'A':  # b/c #msg has data-r, too
-    return True  # do nothing; ie, let the menu be invoked
   try:
     r = int(ev.target.dataset['r'])
   except:  # not on a card
@@ -416,13 +411,14 @@ def recite_btn(ev):
   #
   d['msg'].html = "كيف حال حفظك للآيات من&nbsp;{} إلى&nbsp;{} من&nbsp;سورة&nbsp;{}؟"\
       .format(card.afrom, card.ato, card.sura_name)
-  return True  # to still load the href
+  #
+  w.open(f"/recite/{url_for_card(r)}", "recite")  # https://stackoverflow.com/a/30411511
 
 def update_cards():
   if not d['multimode'].hidden and has_selection():  # if multimode
-    for a in d.select('a[data-r]'):
-      if Selected[0] <= int(a.dataset['r']) <= Selected[1]:
-        a.class_name += ' selected'
+    for btn in d.select('button[data-r]'):
+      if Selected[0] <= int(btn.dataset['r']) <= Selected[1]:
+        btn.class_name += ' selected'
     return  # only update the class of the selected cards
   d['allcards'].html = cards_html(onlynowcards=False)
   #
@@ -430,8 +426,8 @@ def update_cards():
   d['nowcards'].html = nowcards
   d['now'].hidden = nowcards == ''
   #
-  for a in d.select('a[data-r]'):  # all cards; see fmt_cell()
-    a.bind('click', recite_btn)
+  for btn in d.select('button[data-r]'):  # all cards; see fmt_cell()
+    btn.bind('click', recite_btn)
   #
   # DEBUG:
   # deserialize( serialize( rukuinfo ) )
@@ -448,9 +444,9 @@ def fmt_cell(r):
   last = ' lastone' if card is LastOne or has_selection() and Selected[0] <= r <= Selected[1] else ''
   color = f' class="ef{round(card.efactor * 10)}{last}"' if card.ismemoed() else ''
   #
-  return f"""<a role="button" data-r="{r}" {color}
+  return f"""<button data-r="{r}" {color}
              title="تسميع سورة {card.sura_name} من الآية {card.afrom} إلى الآية {card.ato}"
-             href="{url_for_card(r)}">{card.afrom}</a>"""
+             >{card.afrom}</button>"""
 
 def fmt_sura(s, rukus):
   cards = "".join(fmt_cell(r) for r in rukus)
@@ -557,21 +553,21 @@ def import_(ev):
 def __txt_btn_click(ev):
   d['txt_chk'].checked ^= 1  # toggle
   store_bool('txt', d['txt_chk'].checked)
-  update_href_params()
+  update_otherparams()
 
 @bind(d['dark_btn'], 'click')
 def __dark_btn_click(ev):
   d['dark_chk'].checked ^= 1  # toggle
   store_bool('light', not d['dark_chk'].checked)
-  update_href_params()
+  update_otherparams()
 
 @bind(d['taj_btn'], 'click')
 def __taj_btn_click(ev):
   d['taj_chk'].checked ^= 1  # toggle
   store_bool('notajweed', not d['taj_chk'].checked)
-  update_href_params()
+  update_otherparams()
 
-@bind('#mvbtns > a', 'click')
+@bind('#mvbtns > button', 'click')
 def __mvbtns_btn_click(ev):
   if   ev.target.id == 'mvbtns_b': old = 'b'; new = 'r'
   elif ev.target.id == 'mvbtns_r': old = 'r'; new = 'l'
@@ -579,14 +575,14 @@ def __mvbtns_btn_click(ev):
   d['mvbtns_' + old].style.display = 'none'
   d['mvbtns_' + new].style.display = 'block'
   storage['mvbtns'] = new
-  update_href_params()
+  update_otherparams()
 
 # multi mode buttons {{{1
 
 def multiselect(ev):
   global Selected
-  a = ev.target
-  r = int(a.dataset['r'])
+  b = ev.target
+  r = int(b.dataset['r'])
   if Selected[0] is None or r < Selected[0]: Selected[0] = r
   if Selected[1] is None or r > Selected[1]: Selected[1] = r
   update_cards()
@@ -599,10 +595,9 @@ def init_multiselect(ev):
   d['multimode'].hidden = False
   LastOne = None
   Selected = [None, None]
-  for a in d.select('a[data-r]'):  # all cards; see fmt_cell()
-    a.unbind('click')
-    del a.attrs['href']
-    a.bind('click', multiselect)
+  for btn in d.select('button[data-r]'):  # all cards; see fmt_cell()
+    btn.unbind('click')
+    btn.bind('click', multiselect)
 
 @bind(d['multi-start'], 'click')
 def __multi_start_btn_click(ev):
@@ -611,7 +606,7 @@ def __multi_start_btn_click(ev):
   card_from, card_to = rukuinfo[Selected[0]], rukuinfo[Selected[1]]
   sura_from, sura_to = card_from.sura_num, card_to.sura_num
   aaya_from, aaya_to = card_from.ifrom, card_to.ito
-  d['recite'].src = f'?{sura_from}/{aaya_from}-{sura_to}/{aaya_to}{otherparams}'
+  w.open(f'/recite/?{sura_from}/{aaya_from}-{sura_to}/{aaya_to}{otherparams}', 'recite')
   d.body.class_name = 'scrolllock'
   update_cards()  # restore their normal behavior
 
@@ -635,7 +630,7 @@ def _hide_recite_begin():
 
 def _hide_recite_end():
   d.body.class_name = ''
-  last = d.select(f'#{AllOrNow}cards a[data-r="{LastOne.ruku_abs_idx}"]')
+  last = d.select(f'#{AllOrNow}cards button[data-r="{LastOne.ruku_abs_idx}"]')
   if last:
     last[0].focus()
   else:  # happens when a now-card is removed from #nowcards.
@@ -662,20 +657,20 @@ def zz_set_quizmode(v):
   txt = v == 'txt'
   d['txt_chk'].checked = txt
   store_bool('txt', txt)
-  update_href_params()
+  update_otherparams()
 w.zz_set_quizmode = zz_set_quizmode
 
 def zz_set_tajweed(v):
   taj = v == 't' # parts ('b') is considered notajweed
   d['taj_chk'].checked = taj
   store_bool('notajweed', not taj)
-  update_href_params()
+  update_otherparams()
 w.zz_set_tajweed = zz_set_tajweed
 
 def zz_set_dark(dark):
   d['dark_chk'].checked = dark
   store_bool('light', not dark)
-  update_href_params()
+  update_otherparams()
 w.zz_set_dark = zz_set_dark
 
 def zz_set_mvbtns(v):
@@ -684,12 +679,11 @@ def zz_set_mvbtns(v):
   d['mvbtns_l'].style.display = 'none'
   d['mvbtns_' + v].style.display = 'block'
   storage['mvbtns'] = v
-  update_href_params()
+  update_otherparams()
 w.zz_set_mvbtns = zz_set_mvbtns
 
 def zz_set_title(title):
   set_title(title + ' | ذكر الذكر')
 w.zz_set_title = zz_set_title
-
 
 # vim: set foldmethod=marker foldmarker={{{,}}} :

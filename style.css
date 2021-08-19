@@ -17,9 +17,9 @@ html {  /* light */
   --focused-lastone: var(--lastone), var(--focus);  /* order is important */
 }
 /***/
-a[data-r]:focus { box-shadow: var(--focus) }
-.lastone        { box-shadow: var(--lastone) }
-.lastone:focus  { box-shadow: var(--focused-lastone) !important }
+button[data-r]:focus { box-shadow: var(--focus) }
+.lastone             { box-shadow: var(--lastone) }
+.lastone:focus       { box-shadow: var(--focused-lastone) !important }
 .lastsura {
   text-decoration: underline;
 }
@@ -33,40 +33,40 @@ a[data-r]:focus { box-shadow: var(--focus) }
               0 0 0 0.1em white;
 }
 /***/
-#dark_chk:checked ~ *     a { background-color: hsl(  0,   0%, 50%) }
-#dark_chk:checked ~ * .ef13 { background-color: hsl(  0, 100%, 44%) }
-#dark_chk:checked ~ * .ef14 { background-color: hsl( 10, 100%, 42%) }
-#dark_chk:checked ~ * .ef15 { background-color: hsl( 20, 100%, 40%) }
-#dark_chk:checked ~ * .ef16 { background-color: hsl( 30, 100%, 38%) }
-#dark_chk:checked ~ * .ef17 { background-color: hsl( 40, 100%, 36%) }
-#dark_chk:checked ~ * .ef18 { background-color: hsl( 50, 100%, 31%) }
-#dark_chk:checked ~ * .ef19 { background-color: hsl( 60, 100%, 27%) }
-#dark_chk:checked ~ * .ef20 { background-color: hsl( 70, 100%, 27%) }
-#dark_chk:checked ~ * .ef21 { background-color: hsl( 80, 100%, 27%) }
-#dark_chk:checked ~ * .ef22 { background-color: hsl( 90, 100%, 26%) }
-#dark_chk:checked ~ * .ef23 { background-color: hsl(100, 100%, 24%) }
-#dark_chk:checked ~ * .ef24 { background-color: hsl(110, 100%, 22%) }
-#dark_chk:checked ~ * .ef25 { background-color: hsl(120, 100%, 20%) }
-#dark_chk:checked ~ * a:hover  { filter: brightness(1.33) }
-#dark_chk:checked ~ * a:active { filter: brightness(1.50) }
-    a { background-color: hsl(  0,   0%, 70%) }
-.ef13 { background-color: hsl(  0, 100%, 59%) }
-.ef14 { background-color: hsl( 10, 100%, 57%) }
-.ef15 { background-color: hsl( 20, 100%, 55%) }
-.ef16 { background-color: hsl( 30, 100%, 53%) }
-.ef17 { background-color: hsl( 40, 100%, 51%) }
-.ef18 { background-color: hsl( 50, 100%, 46%) }
-.ef19 { background-color: hsl( 60, 100%, 42%) }
-.ef20 { background-color: hsl( 70, 100%, 42%) }
-.ef21 { background-color: hsl( 80, 100%, 42%) }
-.ef22 { background-color: hsl( 90, 100%, 41%) }
-.ef23 { background-color: hsl(100, 100%, 39%) }
-.ef24 { background-color: hsl(110, 100%, 37%) }
-.ef25 { background-color: hsl(120, 100%, 35%) }
-a:hover  { filter: brightness(0.90); cursor: pointer }
-a:active { filter: brightness(0.75); cursor: pointer }
+#dark_chk:checked ~ * button { background-color: hsl(  0,   0%, 50%) }
+#dark_chk:checked ~ * .ef13  { background-color: hsl(  0, 100%, 44%) }
+#dark_chk:checked ~ * .ef14  { background-color: hsl( 10, 100%, 42%) }
+#dark_chk:checked ~ * .ef15  { background-color: hsl( 20, 100%, 40%) }
+#dark_chk:checked ~ * .ef16  { background-color: hsl( 30, 100%, 38%) }
+#dark_chk:checked ~ * .ef17  { background-color: hsl( 40, 100%, 36%) }
+#dark_chk:checked ~ * .ef18  { background-color: hsl( 50, 100%, 31%) }
+#dark_chk:checked ~ * .ef19  { background-color: hsl( 60, 100%, 27%) }
+#dark_chk:checked ~ * .ef20  { background-color: hsl( 70, 100%, 27%) }
+#dark_chk:checked ~ * .ef21  { background-color: hsl( 80, 100%, 27%) }
+#dark_chk:checked ~ * .ef22  { background-color: hsl( 90, 100%, 26%) }
+#dark_chk:checked ~ * .ef23  { background-color: hsl(100, 100%, 24%) }
+#dark_chk:checked ~ * .ef24  { background-color: hsl(110, 100%, 22%) }
+#dark_chk:checked ~ * .ef25  { background-color: hsl(120, 100%, 20%) }
+#dark_chk:checked ~ * button:hover  { filter: brightness(1.33) }
+#dark_chk:checked ~ * button:active { filter: brightness(1.50) }
+button { background-color: hsl(  0,   0%, 70%) }
+.ef13  { background-color: hsl(  0, 100%, 59%) }
+.ef14  { background-color: hsl( 10, 100%, 57%) }
+.ef15  { background-color: hsl( 20, 100%, 55%) }
+.ef16  { background-color: hsl( 30, 100%, 53%) }
+.ef17  { background-color: hsl( 40, 100%, 51%) }
+.ef18  { background-color: hsl( 50, 100%, 46%) }
+.ef19  { background-color: hsl( 60, 100%, 42%) }
+.ef20  { background-color: hsl( 70, 100%, 42%) }
+.ef21  { background-color: hsl( 80, 100%, 42%) }
+.ef22  { background-color: hsl( 90, 100%, 41%) }
+.ef23  { background-color: hsl(100, 100%, 39%) }
+.ef24  { background-color: hsl(110, 100%, 37%) }
+.ef25  { background-color: hsl(120, 100%, 35%) }
+button:hover  { filter: brightness(0.90); cursor: pointer }
+button:active { filter: brightness(0.75); cursor: pointer }
 /***/
-#grading a { position: relative }
+#grading button { position: relative }
 #grading span {
   position: absolute;
   background-color: rgba(0,0,0,0.15);
@@ -105,20 +105,23 @@ a:active { filter: brightness(0.75); cursor: pointer }
 html, body { margin: 0; padding: 0 }
 #page { position: absolute; top: 0; right: 0; min-width: 100%; min-height: 100%; }
 h2 { text-align: center }
-a {
+button {
   display: inline-block;
-  width: 2em;
+  width: 3em;
   margin: 0.25em 0.125em;
   padding: 0 0.5em;
   text-align: center;
   text-decoration: none;
   border-radius: 0.25em;
+  border: none;
+  font-size: inherit; /* because it defaults to another value */
 }
 #records { margin: 0; margin-top: 0.75em }
-#records a { width: 11em; margin: 0.25em 0.125em; }
+#records button { width: 11em; margin: 0.25em 0.125em; }
 
 #altmode { margin: 0 }
-#altmode a { width: 9em; margin: 0.25em 0.125em }
+#altmode button { width: 9.5em; margin: 0.25em 0.125em }
+/* that specific width so that #altmode and #multimode are the same width */
 
                           .faint { background: #ccc !important; color: #444444 !important; }
 #dark_chk:checked ~ #page .faint { background: #555 !important; color: #d0d0d0 !important; }
@@ -179,18 +182,18 @@ a {
   background-color: transparent;
   margin: 3vh 1vmin;
 }
-#pop a { width: 9em }
+#pop button { width: 9em }
 #grading {
   background-color: transparent;
   max-width: calc( 3 * 9.125em ); /* more than the width of three #pop a */
   margin: auto;
 }
 
-#prefs a span { background-color: inherit }
-#prefs a { width: 5em; margin: 0.25em 0.125em; }
-#prefs .mvbtns_btn { display: none; width: 14em }
+#prefs button span { background-color: inherit }
+#prefs button { width: 6em; margin: 0.25em 0.125em; }
+#prefs .mvbtns_btn { display: none; width: 15em }
 #prefs #mvbtns_x   { display: block }
-#prefs #txt_btn { display: block; width: 14em; margin-top: 0.5em }
+#prefs #txt_btn { display: block; width: 15em; margin-top: 0.5em }
 
 /* all the following content is followed by U+2003 EM SPACE */
 #dark_chk:checked      ~ #page #dark_btn::before { content: "✔️ "; color: transparent; text-shadow: 0 0 var(--fgcolor) }
@@ -202,7 +205,7 @@ a {
 /* the following content is using NBSP before and after the word "إملائي" */
 #txt_chk:checked       ~ #page #txt_btn::before { content: "وضع التسميع:    إملائي   (كتابة)" }
 
-a {
+button {
  user-select: none;  /* because it selects on long tap */
 }
 
