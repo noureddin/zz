@@ -34,7 +34,7 @@ def update_prefs():
   # mvbtns
   if 'mvbtns' not in storage:
     storage['mvbtns'] = 'b'
-  d['mvbtns_' + storage['mvbtns']].style.display = 'block'
+  d['mvbtns_' + storage['mvbtns']].style.display = 'inline-block'
   d['mvbtns_x'].style.display = 'none'
   #
   # checkboxes
@@ -573,7 +573,7 @@ def __mvbtns_btn_click(ev):
   elif ev.target.id == 'mvbtns_r': old = 'r'; new = 'l'
   elif ev.target.id == 'mvbtns_l': old = 'l'; new = 'b'
   d['mvbtns_' + old].style.display = 'none'
-  d['mvbtns_' + new].style.display = 'block'
+  d['mvbtns_' + new].style.display = 'inline-block'
   storage['mvbtns'] = new
   update_otherparams()
 

@@ -192,8 +192,9 @@ button {
 #prefs button span { background-color: inherit }
 #prefs button { width: 6em; margin: 0.25em 0.125em; }
 #prefs .mvbtns_btn { display: none; width: 15em }
-#prefs #mvbtns_x   { display: block }
-#prefs #txt_btn { display: block; width: 15em; margin-top: 0.5em }
+#prefs #mvbtns_x   { display: inline-block }
+#prefs #txt_btn { display: inline-block; width: 15em; margin-top: 0.5em }
+#prefs #mvbtns { display: inline-block }
 
 /* all the following content is followed by U+2003 EM SPACE */
 #dark_chk:checked      ~ #page #dark_btn::before { content: "✔️ "; color: transparent; text-shadow: 0 0 var(--fgcolor) }

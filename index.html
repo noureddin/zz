@@ -24,15 +24,15 @@
       <button id="export">تصدير&nbsp;سجلات&nbsp;الحفظ</button>
     </center>
     <center id="prefs">
+      <!-- apparently I can't change `aria-checked="true"` through Brython. -->
+      <button role="checkbox" id="txt_btn"></button>
       <div role="listbox" id="mvbtns">
         <button role="option" class="mvbtns_btn" id="mvbtns_x">موضع أزار التسميع:&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
         <button role="option" class="mvbtns_btn" id="mvbtns_r">موضع أزار التسميع:&nbsp; اليمين&nbsp;&nbsp;&nbsp;➡️</button>
         <button role="option" class="mvbtns_btn" id="mvbtns_l">موضع أزار التسميع:&nbsp; اليسار&nbsp;&nbsp;&nbsp;⬅️</button>
         <button role="option" class="mvbtns_btn" id="mvbtns_b">موضع أزار التسميع:&nbsp; الأسفل&nbsp;&nbsp;⬇️</button>
         <!-- one more space for the first two to make the arrows in almost the same place. -->
-      </div>
-      <!-- apparently I can't change `aria-checked="true"` through Brython. -->
-      <button role="checkbox" id="txt_btn"></button>
+      </div><br>
       <button role="checkbox" id="dark_btn">ليلي</button>
       <button role="checkbox" id="taj_btn">تَ<span class="qalqala">جْ</span>وِ<span class="madd">ي</span><span class="qalqala">د</span>ٌ</button>
     </center>
