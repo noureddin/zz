@@ -97,8 +97,20 @@ button:active { filter: brightness(0.75); cursor: pointer }
                       .madd { color: #d70 }
 #dark_chk:checked ~ * .madd { color: #fb0 }
 
+/* Noto Sans Arabic - Bold, downloaded from: https://www.google.com/get/noto/ */
+/* It is under SIL OFL. It is converted from TrueType to WOFF using */
+/* the WOFFjs-based WOFFer at: https://andrewsun.com/tools/woffer-woff-font-converter/ */
+/* and to WOFF2 using: https://everythingfonts.com/ttf-to-woff2 */
+@font-face {
+  font-family: NotoSansArabicBoldWeb;
+  font-style: normal;
+  font-weight: 700;
+  src: url('./NotoSansArabic-Bold.woff2') format('woff2'),
+       url('./NotoSansArabic-Bold.woff')  format('woff');
+}
+
 * {
-  font-family: "Noto Serif";
+  font-family: NotoSansArabicBoldWeb, "Noto Sans Arabic", sans;
   font-weight: bold;
   background-color: var(--bgcolor);
   color: var(--fgcolor);
