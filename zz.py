@@ -41,6 +41,10 @@ def update_prefs():
   if 'txt' in storage:         d['txt_chk'].checked = True
   if 'light' in storage:       d['dark_chk'].checked = False
   if 'notajweed' in storage:   d['taj_chk'].checked = False
+  #
+  # warning
+  if 'warn' in storage:
+    hide_warning(None)
 
 
 def load_bool(name):
@@ -383,21 +387,23 @@ def _contextmenu(ev):
 # warning {{{1
 
 @bind(d['warn_hide_btn'], 'click')
-def __warn_hide_btn(ev):
+def hide_warning(ev):
   d['warning'].open = False
   d.select('#warning > summary')[0].classList = 'collapsed'
+  store_bool('warn', True)
 
 @bind(d['warn_show_btn'], 'click')
-def __warn_show_btn(ev):
+def show_warning(ev):
   d['warning'].open = True
   d.select('#warning > summary')[0].classList = ''
+  store_bool('warn', False)
 
 @bind(d['warning'], 'toggle')
 def __warning_toggle(ev):
   if d['warning'].open:
-    __warn_show_btn(ev)
+    show_warning(ev)
   else:
-    __warn_hide_btn(ev)
+    hide_warning(ev)
 
 
 # cards {{{1
