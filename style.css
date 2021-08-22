@@ -96,8 +96,9 @@ button:active { filter: brightness(0.75); cursor: pointer }
 #dark_chk:checked ~ * .qalqala { color: #9cf }
                       .madd { color: #d70 }
 #dark_chk:checked ~ * .madd { color: #fb0 }
+
 * {
-  font-family: "Noto Kufic Arabic";
+  font-family: "Noto Serif";
   font-weight: bold;
   background-color: var(--bgcolor);
   color: var(--fgcolor);
