@@ -457,9 +457,16 @@ def fmt_sura(s, rukus):
 
 # onload {{{1
 
+def decode_contact():
+  mia_nomo = d['abc'].href[19:28]
+  d['xyz'].html = mia_nomo + str(ord('_')) + chr(1<<6) + 'moc.liamg'[::-1]
+  d['xyz'].href = d['xyz'].html[13:17] + 'to' + chr(ord('xyz'[1<<1])^0O100) + d['xyz'].html
+  # if you know a better way, please let me know!
+
 def onload():
   update_prefs()
   update_otherparams()  # reloading keeps the checkboxes' values
+  decode_contact()
   update_cards()
   set_interval(update_cards, 5*60*1000)  # every 5 minutes
   # TODO: check requestAnimationFrame()

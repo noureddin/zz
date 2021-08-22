@@ -211,3 +211,42 @@ button {
 }
 
 hr { color:#aaa }
+
+#warning {
+  text-align: center;
+  background: #903;
+  padding: 0.33em 1em;
+  box-shadow:
+        /* https://stackoverflow.com/a/21902649 */
+        inset 0 -2em 4em -1em rgba(0, 0, 0, 0.5);
+}
+
+#warning strong {
+  font-size: 1.25em;
+  background: none;
+  color: gold;
+}
+
+#page #warning a.contact {
+  display: inline;
+  width: auto;
+  /* background: #401; */
+  background: none;
+  text-decoration: underline;
+  margin: 0;
+  padding: 0;
+  /* color: #88f; */
+  color: #99f;
+  font-family: "Times New Roman", serif;
+}
+
+#page #warning a.contact:focus,
+#page #warning a.contact:hover {
+  color: #ccf;
+  text-shadow: 0 0 0.5em #88c;
+}
+
+#page #warning a.contact:active {
+  color: #fff;
+  text-shadow: 0 0 0.5em #88c;
+}
