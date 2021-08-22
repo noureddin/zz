@@ -380,6 +380,26 @@ def _contextmenu(ev):
   ev.preventDefault(); return False  # override the context menu
   
 
+# warning {{{1
+
+@bind(d['warn_hide_btn'], 'click')
+def __warn_hide_btn(ev):
+  d['warning'].open = False
+  d.select('#warning > summary')[0].classList = 'collapsed'
+
+@bind(d['warn_show_btn'], 'click')
+def __warn_show_btn(ev):
+  d['warning'].open = True
+  d.select('#warning > summary')[0].classList = ''
+
+@bind(d['warning'], 'toggle')
+def __warning_toggle(ev):
+  if d['warning'].open:
+    __warn_show_btn(ev)
+  else:
+    __warn_hide_btn(ev)
+
+
 # cards {{{1
 
 AllOrNow = ''  # where the last card is clicked

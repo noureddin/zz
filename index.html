@@ -26,10 +26,12 @@
   <input type="checkbox" id="taj_chk" checked hidden>
 
   <div id="page">
-    <div id="warning"><strong>⚠️&nbsp;&nbsp;تنبيه!&nbsp;&nbsp;⚠️</strong><br>
+    <details open id="warning"><summary>⚠️&nbsp;&nbsp;تنبيه!&nbsp;&nbsp;⚠️<button role="checkbox" id="warn_show_btn">إظهار</button></summary>
       هذا التطبيق مكتمل الخصائص لكنه لا يزال قيد التطوير المستمر؛ قد تتغير خوارزمية التكرار أو تقسيمات السور؛ ابدأ بالسور القصيرة أو التي تحفظها (نسبيا) بالفعل، تجنبا لأي اضطراب، وأبلغني بما تراه يحتاج التحسين.<br>
       تواصل معي عبر <a id="abc" target="_blank" class="contact" href="https://github.com/noureddin/zz/issues">GitHub Issues</a>
-      أو البريد الإلكتروني <a id="xyz" target="_blank" class="contact" href="">[hidden]</a>.</div>
+      أو البريد الإلكتروني <a id="xyz" target="_blank" class="contact" href="">[hidden]</a>.
+      <button role="checkbox" id="warn_hide_btn">إخفاء</button>
+    </details>
 
     <center id="records">
       <button id="import">استيراد&nbsp;سجلات&nbsp;الحفظ</button>

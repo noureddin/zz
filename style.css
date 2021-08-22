@@ -221,10 +221,14 @@ hr { color:#aaa }
         inset 0 -2em 4em -1em rgba(0, 0, 0, 0.5);
 }
 
-#warning strong {
+#warning summary {
   font-size: 1.25em;
   background: none;
   color: gold;
+}
+
+#warning summary.collapsed {
+  font-size: 1em;
 }
 
 #page #warning a.contact {
@@ -250,3 +254,29 @@ hr { color:#aaa }
   color: #fff;
   text-shadow: 0 0 0.5em #88c;
 }
+
+#page #warning button {
+  background: #db195a;
+}
+
+#page #warning #warn_show_btn {
+  padding: 0 1em;
+  margin-right: 1em;
+  width: auto;
+  display: none;
+}
+
+#page #warning #warn_hide_btn {
+  display: block;
+  padding: 0 2em;
+  margin: 0.25em auto;
+  width: auto;
+}
+
+#page #warning summary.collapsed #warn_show_btn {
+  display: inline-block;
+}
+
+/* remove the marker: https://stackoverflow.com/a/56649741 */
+details > summary { list-style: none }
+details > summary::-webkit-details-marker { display: none }
