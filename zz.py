@@ -663,6 +663,9 @@ def _hide_recite_begin():
 
 def _hide_recite_end():
   d.body.class_name = ''
+  # then focus the just-recited card
+  if LastOne is None:  # multi-mode
+    return  # no idea what should I do then
   last = d.select(f'#{AllOrNow}cards button[data-r="{LastOne.ruku_abs_idx}"]')
   if last:
     last[0].focus()
