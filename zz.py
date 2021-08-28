@@ -406,6 +406,24 @@ def __warning_toggle(ev):
     hide_warning(ev)
 
 
+# repeat & gonext {{{1
+
+
+def hide_quick_buttons(): d['repeat_btn'].style.display = d['gonext_btn'].style.display = 'none'
+def show_quick_buttons(): d['repeat_btn'].style.display = d['gonext_btn'].style.display = 'inline-block'
+
+@bind(d['repeat_btn'], 'click')
+def __repeat_btn(ev):
+  global AllOrNow; AllOrNow = 'all'
+  recite_card(LastOne)
+
+@bind(d['gonext_btn'], 'click')
+def __gonext_btn(ev):
+  global AllOrNow; AllOrNow = 'all'
+  r = (LastOne.ruku_abs_idx + 1) % len(rukuinfo)
+  recite_card(rukuinfo[r])
+
+
 # cards {{{1
 
 AllOrNow = ''  # where the last card is clicked
@@ -419,6 +437,7 @@ def nowcards(s):
   now = hr_now()
   return [ r for r in rukus_of_sura[s] if rukuinfo[r].isdue(now) ]
 
+
 def cards_html(onlynowcards=False):
   if onlynowcards:
     return "".join(fmt_sura(s, nowcards(s)) for s in range(114))
@@ -426,19 +445,20 @@ def cards_html(onlynowcards=False):
     return "".join(fmt_sura(s, rukus_of_sura[s]) for s in range(114))
 
 
-def recite_btn(ev):
-  global LastOne
-  global Selected
-  global AllOrNow
-  AllOrNow = ev.target.parent.parent.parent.id[:3]
-  r = int(ev.target.dataset['r'])
-  LastOne = card = rukuinfo[r]
-  Selected = [None, None]
-  #
+def recite_card(card):
+  global LastOne; LastOne = card
+  global Selected; Selected = [None, None]
   d['msg'].html = "كيف حال حفظك للآيات من&nbsp;{} إلى&nbsp;{} من&nbsp;سورة&nbsp;{}؟"\
       .format(card.afrom, card.ato, card.sura_name)
-  #
-  w.open(f"/recite/{url_for_card(r)}", "recite")  # https://stackoverflow.com/a/30411511
+  w.open(f"/recite/{url_for_card(card)}", "recite")  # https://stackoverflow.com/a/30411511
+
+
+def recite_btn(ev):
+  global AllOrNow; AllOrNow = ev.target.parent.parent.parent.id[:3]
+  global Selected; Selected = [None, None]
+  r = int(ev.target.dataset['r'])
+  recite_card(rukuinfo[r])
+
 
 def update_cards():
   if not d['multimode'].hidden and has_selection():  # if multimode
@@ -455,13 +475,19 @@ def update_cards():
   for btn in d.select('button[data-r]'):  # all cards; see fmt_cell()
     btn.bind('click', recite_btn)
   #
+  if LastOne is not None:
+    show_quick_buttons()
+  else:
+    hide_quick_buttons()
+  #
   # DEBUG:
   # deserialize( serialize( rukuinfo ) )
 
-def url_for_card(r):
-  card = rukuinfo[r]
+
+def url_for_card(card):
   s = card.sura_num
   return f"?{s}/{card.ifrom}-{s}/{card.ito}{otherparams}"
+
 
 # formatting {{{1
 

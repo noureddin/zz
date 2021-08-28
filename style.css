@@ -297,3 +297,25 @@ hr { color:#aaa }
 /* remove the marker: https://stackoverflow.com/a/56649741 */
 details > summary { list-style: none }
 details > summary::-webkit-details-marker { display: none }
+
+#repeat_btn,
+#gonext_btn {
+  display: none;
+  position: fixed;
+  box-sizing: border-box;
+  right: 0.5rem;
+  width:  3rem;
+  height: 3rem;
+  opacity: 75%;
+}
+
+#repeat_btn svg,
+#gonext_btn svg {
+  background: none;
+  fill: var(--fgcolor);
+  vertical-align: middle;
+}
+
+#repeat_btn { bottom: 4rem } /* 0.5 + 3 + 0.5 */
+#gonext_btn { bottom: 0.5rem }
+
