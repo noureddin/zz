@@ -416,13 +416,28 @@ def show_quick_buttons(): d['repeat_btn'].style.display = d['gonext_btn'].style.
 @bind(d['repeat_btn'], 'click')
 def __repeat_btn(ev):
   global AllOrNow; AllOrNow = 'all'
-  recite_card(LastOne)
+  global Selected
+  if LastOne is not None:
+    recite_card(LastOne)
+  else:  # multimode?
+    x = d.select('#allcards button[class~="lastone"]')
+    if x:
+      Selected = [int(c.dataset['r']) for c in x[0], x[-1]]
+      __multi_start_btn_click(None)  # arg ignored
+
 
 @bind(d['gonext_btn'], 'click')
 def __gonext_btn(ev):
   global AllOrNow; AllOrNow = 'all'
-  r = (LastOne.ruku_abs_idx + 1) % len(rukuinfo)
-  recite_card(rukuinfo[r])
+  if LastOne is not None:
+    last = LastOne.ruku_abs_idx
+  else:  # multimode?
+    x = d.select('#allcards button[class~="lastone"]')
+    if x:
+      last = int(x[-1].dataset['r'])
+  if last:
+    r = (last + 1) % len(rukuinfo)
+    recite_card(rukuinfo[r])
 
 
 # cards {{{1
@@ -476,13 +491,17 @@ def update_cards():
   for btn in d.select('button[data-r]'):  # all cards; see fmt_cell()
     btn.bind('click', recite_btn)
   #
-  if not load_bool('noquick') and LastOne is not None:
-    show_quick_buttons()
-    if f'data-r="{LastOne.ruku_abs_idx}"' in nowcards:
-      # if lastone is in #nowcards
-      d['repeat_btn'].classList = 'repeatlast'
-    else:
-      d['repeat_btn'].classList = ''
+  if not load_bool('noquick'):
+    if LastOne is not None:
+      show_quick_buttons()
+      if f'data-r="{LastOne.ruku_abs_idx}"' in nowcards:
+        # if lastone is in #nowcards
+        d['repeat_btn'].classList = 'repeatlast'
+      else:
+        d['repeat_btn'].classList = ''
+    elif d.select('button[class~="lastone"]'):  # multimode
+      show_quick_buttons()
+      d['repeat_btn'].classList = ''  # TODO
   else:
     hide_quick_buttons()
   #
