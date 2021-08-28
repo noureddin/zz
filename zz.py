@@ -477,6 +477,11 @@ def update_cards():
   #
   if LastOne is not None:
     show_quick_buttons()
+    if f'data-r="{LastOne.ruku_abs_idx}"' in nowcards:
+      # if lastone is in #nowcards
+      d['repeat_btn'].classList = 'repeatlast'
+    else:
+      d['repeat_btn'].classList = ''
   else:
     hide_quick_buttons()
   #
