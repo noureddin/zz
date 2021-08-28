@@ -41,6 +41,7 @@ def update_prefs():
   if 'txt' in storage:         d['txt_chk'].checked = True
   if 'light' in storage:       d['dark_chk'].checked = False
   if 'notajweed' in storage:   d['taj_chk'].checked = False
+  if 'noquick' in storage:     d['quick_chk'].checked = False
   #
   # warning
   if 'warn' in storage:
@@ -475,7 +476,7 @@ def update_cards():
   for btn in d.select('button[data-r]'):  # all cards; see fmt_cell()
     btn.bind('click', recite_btn)
   #
-  if LastOne is not None:
+  if not load_bool('noquick') and LastOne is not None:
     show_quick_buttons()
     if f'data-r="{LastOne.ruku_abs_idx}"' in nowcards:
       # if lastone is in #nowcards
@@ -630,6 +631,17 @@ def __taj_btn_click(ev):
   d['taj_chk'].checked ^= 1  # toggle
   store_bool('notajweed', not d['taj_chk'].checked)
   update_otherparams()
+
+@bind(d['quick_btn'], 'click')
+def __quick_btn_click(ev):
+  if d['quick_chk'].checked:
+    d['quick_chk'].checked = False
+    store_bool('noquick', True)
+    hide_quick_buttons()
+  else:
+    d['quick_chk'].checked = True
+    store_bool('noquick', False)
+    show_quick_buttons()
 
 @bind('#mvbtns > button', 'click')
 def __mvbtns_btn_click(ev):
