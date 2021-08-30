@@ -464,8 +464,6 @@ def cards_html(onlynowcards=False):
 def recite_card(card):
   global LastOne; LastOne = card
   global Selected; Selected = [None, None]
-  d['msg'].html = "كيف حال حفظك للآيات من&nbsp;{} إلى&nbsp;{} من&nbsp;سورة&nbsp;{}؟"\
-      .format(card.afrom, card.ato, card.sura_name)
   w.open(f"/recite/{url_for_card(card)}", "recite")  # https://stackoverflow.com/a/30411511
 
 
@@ -782,6 +780,14 @@ w.zz_set_mvbtns = zz_set_mvbtns
 
 def zz_set_title(title):
   set_title(title + ' | ذكر الذكر')
+  # set msg
+  msg = title[6:]  # remove 'تسميع '
+  if msg.startswith('ال'):
+    d['msg'].html = f'كيف حال حفظك ل{msg[1:]}؟'
+  elif msg.startswith('سور'):  # سورة or سورتي
+    d['msg'].html = f'كيف حال حفظك ل{msg}؟'
+  else:  # msg.startswith('من '):
+    d['msg'].html = f'كيف حال حفظك للآيات {msg}؟'
 w.zz_set_title = zz_set_title
 
 # vim: set foldmethod=marker foldmarker={{{,}}} :
