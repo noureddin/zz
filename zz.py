@@ -379,7 +379,7 @@ def _contextmenu(ev):
     r = int(ev.target.dataset['r'])
   except:  # not on a card
     return True  # do nothing; ie, let the menu be invoked
-  if not has_selection():
+  if not in_multimode():
     init_multiselect(ev)  # ev is ignored
   multiselect(ev)  # looks only at ev.target
   show_info(r)
@@ -469,6 +469,7 @@ Selected = [None, None]
 
 def has_selection(): return Selected[0] is not None and Selected[1] is not None
 
+def in_multimode(): return not d['multimode'].hidden and has_selection()
 
 def nowcards(s):
   now = hr_now()
@@ -496,7 +497,7 @@ def recite_btn(ev):
 
 
 def update_cards():
-  if not d['multimode'].hidden and has_selection():  # if multimode
+  if in_multimode():
     for btn in d.select('button[data-r]'):
       if Selected[0] <= int(btn.dataset['r']) <= Selected[1]:
         btn.class_name += ' selected'
