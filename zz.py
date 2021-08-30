@@ -296,7 +296,7 @@ def deserialize(serial):
   def read_lr():  return decode_int(tokenize()) + epoch
   #
   if serial == '': return
-  print(serial)
+  # print(serial)
   rukuinfo = compute_rukuinfo()
   if serial[:3] != 'ZZX':
     return  # error
@@ -310,12 +310,12 @@ def deserialize(serial):
     sura_idx = read_idx()
     # print('S:', sura_idx+1)
     if len(rukus_of_sura[sura_idx]) == 1:
-      s = serial; print(names[sura_idx], '-', read_int(), f'{read_ef():g}', read_int(), read_lr() ); serial = s
+      # s = serial; print(names[sura_idx], '-', read_int(), f'{read_ef():g}', read_int(), read_lr() ); serial = s
       rukuinfo[rukus_of_sura[sura_idx][0]].set_parameters(
         read_int(), read_ef(), read_int(), read_lr() )
     else:
       while (ruku_idx := read_idx()) != -1:
-        s = serial; print(names[sura_idx], ruku_idx, read_int(), f'{read_ef():g}', read_int(), read_lr() ); serial = s
+        # s = serial; print(names[sura_idx], ruku_idx, read_int(), f'{read_ef():g}', read_int(), read_lr() ); serial = s
         rukuinfo[rukus_of_sura[sura_idx][ruku_idx]].set_parameters(
           read_int(), read_ef(), read_int(), read_lr() )
   #
