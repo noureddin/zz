@@ -379,11 +379,12 @@ def _contextmenu(ev):
     r = int(ev.target.dataset['r'])
   except:  # not on a card
     return True  # do nothing; ie, let the menu be invoked
-  init_multiselect(ev)  # ev is ignored
+  if not has_selection():
+    init_multiselect(ev)  # ev is ignored
   multiselect(ev)  # looks only at ev.target
   show_info(r)
   ev.preventDefault(); return False  # override the context menu
-  
+
 
 # warning {{{1
 
