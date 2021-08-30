@@ -414,6 +414,26 @@ def __warning_toggle(ev):
 def hide_quick_buttons(): d['repeat_btn'].style.display = d['gonext_btn'].style.display = 'none'
 def show_quick_buttons(): d['repeat_btn'].style.display = d['gonext_btn'].style.display = 'inline-block'
 
+
+# called in update_cards()
+# also makes repeat_btn red if a repeat is needed
+def show_or_hide_quick_buttons(nowcards_html):
+  if load_bool('noquick'):
+    hide_quick_buttons()
+  else:
+    need_repeat = None
+    if LastOne is not None:
+      show_quick_buttons()
+      need_repeat = f'data-r="{LastOne.ruku_abs_idx}"' in nowcards_html
+    elif d.select('button[class~="lastone"]'):  # multimode
+      show_quick_buttons()
+      need_repeat = any(
+        f'data-r="{r}"' in nowcards_html \
+          for r in range(Selected[0], Selected[1]+1)
+      )
+    d['repeat_btn'].classList = 'repeatlast' if need_repeat else ''
+
+
 @bind(d['repeat_btn'], 'click')
 def __repeat_btn(ev):
   global AllOrNow; AllOrNow = 'all'
@@ -483,26 +503,14 @@ def update_cards():
     return  # only update the class of the selected cards
   d['allcards'].html = cards_html(onlynowcards=False)
   #
-  nowcards = cards_html(onlynowcards=True)
-  d['nowcards'].html = nowcards
-  d['now'].hidden = nowcards == ''
+  nowcards_html = cards_html(onlynowcards=True)
+  d['nowcards'].html = nowcards_html
+  d['now'].hidden = nowcards_html == ''
   #
   for btn in d.select('button[data-r]'):  # all cards; see fmt_cell()
     btn.bind('click', recite_btn)
   #
-  if not load_bool('noquick'):
-    if LastOne is not None:
-      show_quick_buttons()
-      if f'data-r="{LastOne.ruku_abs_idx}"' in nowcards:
-        # if lastone is in #nowcards
-        d['repeat_btn'].classList = 'repeatlast'
-      else:
-        d['repeat_btn'].classList = ''
-    elif d.select('button[class~="lastone"]'):  # multimode
-      show_quick_buttons()
-      d['repeat_btn'].classList = ''  # TODO
-  else:
-    hide_quick_buttons()
+  show_or_hide_quick_buttons(nowcards_html)
   #
   # DEBUG:
   # deserialize( serialize( rukuinfo ) )
