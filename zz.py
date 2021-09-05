@@ -529,10 +529,10 @@ def url_for_card(card):
 
 def fmt_cell(r):
   card = rukuinfo[r]
-  last = ' lastone' if card is LastOne or has_selection() and Selected[0] <= r <= Selected[1] else ''
-  color = f' class="ef{round(card.efactor * 10)}{last}"' if card.ismemoed() else ''
+  last = 'lastone' if card is LastOne or has_selection() and Selected[0] <= r <= Selected[1] else ''
+  color = f'ef{round(card.efactor * 10)}' if card.ismemoed() else ''
   #
-  return f"""<button data-r="{r}" {color}
+  return f"""<button data-r="{r}" class="{color} {last}"
              title="تسميع سورة {card.sura_name} من الآية {card.afrom} إلى الآية {card.ato}"
              >{card.afrom}</button>"""
 
