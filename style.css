@@ -247,7 +247,7 @@ hr { color:#aaa }
         inset 0 -2em 4em -1em rgba(0, 0, 0, 0.5);
 }
 
-#warning, #warning button {
+#warning, #warning * {
   color: white;
 }
 
