@@ -450,13 +450,14 @@ def __repeat_btn(ev):
 @bind(d['gonext_btn'], 'click')
 def __gonext_btn(ev):
   global AllOrNow; AllOrNow = 'all'
+  last = None
   if LastOne is not None:
     last = LastOne.ruku_abs_idx
   else:  # multimode?
     x = d.select('#allcards button[class~="lastone"]')
     if x:
       last = int(x[-1].dataset['r'])
-  if last:
+  if last is not None:
     r = (last + 1) % len(rukuinfo)
     recite_card(rukuinfo[r])
 
