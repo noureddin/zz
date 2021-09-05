@@ -255,7 +255,7 @@ class Card(Mem):
 def serialize(rukuinfo):
   serial = 'ZZX' + encode_int(0)
   try:
-    epoch = min(r.lastreview for r in rukuinfo if r.lastreview is not None)
+    epoch = min(r.lastreview for r in rukuinfo if r.ismemoed())
   except ValueError:  # mostly likely: min() arg is an empty sequence
     return ''
   serial += encode_int(epoch, pad=False) + PAD_CHAR
@@ -264,7 +264,7 @@ def serialize(rukuinfo):
     (rr, rukuinfo) = (
         [ r for r in rukuinfo if r.sura_idx == sura_idx ],
         [ r for r in rukuinfo if r.sura_idx != sura_idx ])
-    rr = [ r for r in rr if r.lastreview is not None ]
+    rr = [ r for r in rr if r.ismemoed() ]
     if len(rr) == 0: continue
     serial += encode_int(sura_idx + 1)
     #
@@ -619,7 +619,8 @@ def export(ev=0):  # https://stackoverflow.com/q/3665115
   filename = time.strftime('Export-%Y-%m-%d-%H%M.ZZX')
   # blob = w.Blob.new(serialize(rukuinfo), {'type':)
   # a = t.A(href=w.URL.createObjectURL(serialize(rukuinfo)), download='export.zz')
-  a = t.A(href='data:application/octet-stream,' + serialize(rukuinfo), download=filename)
+  a = t.A(href='data:application/octet-stream,' + serialize(rukuinfo),
+      download=filename, style={'display': 'none'})
   d.body.appendChild(a)
   a.click()
   d.body.removeChild(a)
