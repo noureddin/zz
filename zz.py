@@ -668,7 +668,7 @@ def __quick_btn_click(ev):
   else:
     d['quick_chk'].checked = True
     store_bool('noquick', False)
-    show_quick_buttons()
+    show_or_hide_quick_buttons()
 
 @bind('#mvbtns > button', 'click')
 def __mvbtns_btn_click(ev):
