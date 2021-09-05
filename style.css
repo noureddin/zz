@@ -161,8 +161,11 @@ button {
   /* box-shadow: 0 0 0.2em 0.2em hsl( 60, 100%, 27%);  /1* same as ef19 *1/ */
 }
 
+#warning_content {
+  background: none;
+}
 
-.list {
+.list, #warning_content {
   /* width: calc( 7.2em + round( 10em, 3.25em )); */
   width: min( 90%, 46.3em );
   margin: auto;  /* center */
