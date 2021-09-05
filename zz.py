@@ -417,7 +417,9 @@ def show_quick_buttons(): d['repeat_btn'].style.display = d['gonext_btn'].style.
 
 # called in update_cards()
 # also makes repeat_btn red if a repeat is needed
-def show_or_hide_quick_buttons(nowcards_html):
+def show_or_hide_quick_buttons(nowcards_html=None):
+  if nowcards_html is None:
+    nowcards_html = d['nowcards'].html
   if load_bool('noquick'):
     hide_quick_buttons()
   else:
