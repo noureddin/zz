@@ -46,12 +46,12 @@ button[data-r]:focus { box-shadow: var(--focus) }
 #dark_chk:checked ~ * .ef17  { background-color: hsl( 40, 100%, 36%) }
 #dark_chk:checked ~ * .ef18  { background-color: hsl( 50, 100%, 31%) }
 #dark_chk:checked ~ * .ef19  { background-color: hsl( 60, 100%, 27%) }
-#dark_chk:checked ~ * .ef20  { background-color: hsl( 70, 100%, 27%) }
-#dark_chk:checked ~ * .ef21  { background-color: hsl( 80, 100%, 27%) }
+#dark_chk:checked ~ * .ef20  { background-color: hsl( 70, 100%, 26%) }
+#dark_chk:checked ~ * .ef21  { background-color: hsl( 80, 100%, 26%) }
 #dark_chk:checked ~ * .ef22  { background-color: hsl( 90, 100%, 26%) }
 #dark_chk:checked ~ * .ef23  { background-color: hsl(100, 100%, 24%) }
 #dark_chk:checked ~ * .ef24  { background-color: hsl(110, 100%, 22%) }
-#dark_chk:checked ~ * .ef25  { background-color: hsl(120, 100%, 20%) }
+#dark_chk:checked ~ * .ef25  { background-color: hsl(120, 100%, 19%) }
 #dark_chk:checked ~ * button:hover  { filter: brightness(1.33) }
 #dark_chk:checked ~ * button:active { filter: brightness(1.50) }
 button { background-color: hsl(  0,   0%, 70%) }
@@ -67,7 +67,7 @@ button { background-color: hsl(  0,   0%, 70%) }
 .ef22  { background-color: hsl( 90, 100%, 41%) }
 .ef23  { background-color: hsl(100, 100%, 39%) }
 .ef24  { background-color: hsl(110, 100%, 37%) }
-.ef25  { background-color: hsl(120, 100%, 35%) }
+.ef25  { background-color: hsl(120, 100%, 34%) }
 button:hover  { filter: brightness(0.90); cursor: pointer }
 button:active { filter: brightness(0.75); cursor: pointer }
 /***/
