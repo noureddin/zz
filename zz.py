@@ -23,6 +23,7 @@ def update_otherparams():
   otherparams += '&d' if not load_bool('light') else ''
   otherparams += '&c=n' if load_bool('notajweed') else ''
   otherparams += '&txt' if load_bool('txt') else ''
+  otherparams += '&byword' if load_bool('byword') else ''
 
 @bind(d['free'], 'click')
 def __free_click(ev):
@@ -42,6 +43,7 @@ def update_prefs():
   if 'light' in storage:       d['dark_chk'].checked = False
   if 'notajweed' in storage:   d['taj_chk'].checked = False
   if 'noquick' in storage:     d['quick_chk'].checked = False
+  if 'byword' in storage:      d['byword_chk'].checked = True
   #
   # warning
   if 'warn' in storage:
@@ -682,6 +684,12 @@ def __mvbtns_btn_click(ev):
   d['mvbtns_' + old].style.display = 'none'
   d['mvbtns_' + new].style.display = 'inline-block'
   storage['mvbtns'] = new
+  update_otherparams()
+
+@bind(d['byword_btn'], 'click')
+def __byword_btn_click(ev):
+  d['byword_chk'].checked ^= 1  # toggle
+  store_bool('byword', d['byword_chk'].checked)
   update_otherparams()
 
 # multi mode buttons {{{1

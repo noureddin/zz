@@ -213,6 +213,7 @@ button {
 #prefs button span { background-color: inherit }
 #prefs button { width: 6em; margin: 0.25em 0.125em; }
 #prefs #quick_btn { width: 12.5em }
+#prefs #byword_btn { width: 12.5em }
 #prefs .mvbtns_btn { display: none; width: 15em }
 #prefs #mvbtns_x   { display: inline-block }
 #prefs #txt_btn { display: inline-block; width: 15em }
@@ -229,6 +230,11 @@ button {
 #txt_chk:not(checked)  ~ #page #txt_btn::before { content: "وضع التسميع: عثماني (لا كتابة)" }
 /* the following content is using NBSP before and after the word "إملائي" */
 #txt_chk:checked       ~ #page #txt_btn::before { content: "وضع التسميع:    إملائي   (كتابة)" }
+
+#byword_chk:not(checked) ~ #page #byword_btn #byword_y { display: none }
+#byword_chk:not(checked) ~ #page #byword_btn #byword_n { display: inline }
+#byword_chk:checked      ~ #page #byword_btn #byword_y { display: inline }
+#byword_chk:checked      ~ #page #byword_btn #byword_n { display: none }
 
 button {
  user-select: none;  /* because it selects on long tap */
