@@ -135,6 +135,7 @@ html, body {
   overflow-y: scroll;
   overflow-x: hidden;
   box-sizing: border-box;
+  scroll-behavior: smooth;
 }
 h2 { text-align: center }
 button {
