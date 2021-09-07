@@ -603,13 +603,13 @@ def __kb(ev):
     return  # only handle keyups on #pop
   if ev.shiftKey or ev.ctrlKey or ev.altKey:
     return  # Ignore if a modifier is used (e.g., Ctrl+0 is Reset Zoom)
-  elif ev.key == '0' or ev.key == 'Escape':  hide_pop()
-  elif ev.key == '1':  grade(5)
-  elif ev.key == '2':  grade(4)
-  elif ev.key == '3':  grade(3)
-  elif ev.key == '4':  grade(2)
-  elif ev.key == '5':  grade(1)
-  else:  pass  # do nothing
+  elif ev.key in ('0', '٠', 'Escape'):  hide_pop()
+  elif ev.key in ('1', '١'):  grade(5)
+  elif ev.key in ('2', '٢'):  grade(4)
+  elif ev.key in ('3', '٣'):  grade(3)
+  elif ev.key in ('4', '٤'):  grade(2)
+  elif ev.key in ('5', '٥'):  grade(1)
+  # else: do nothing
 
 d['dismiss'].bind('click', hide_pop)
 
