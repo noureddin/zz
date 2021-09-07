@@ -231,10 +231,10 @@ button {
 #prefs #byword_btn { width: 12.5em }
 #prefs .mvbtns_btn { display: none; width: 15em }
 #prefs #mvbtns_x   { display: inline-block }
-#prefs #txt_btn { display: inline-block; width: 15em }
+#prefs #txt_btn { display: inline-block; width: 15em; text-align: right }
 #prefs #mvbtns { display: inline-block }
 
-/* all the following content is followed by U+2003 EM SPACE */
+/* all the following contents are followed by U+2003 EM SPACE */
 #dark_chk:checked      ~ #page #dark_btn::before { content: "✔️ "; color: transparent; text-shadow: 0 0 var(--fgcolor) }
 #dark_chk:not(checked) ~ #page #dark_btn::before { content: "❌ "; color: transparent; text-shadow: 0 0 var(--fgcolor) }
 #taj_chk:checked       ~ #page #taj_btn::before  { content: "✔️ "; color: transparent; text-shadow: 0 0 var(--fgcolor) }
@@ -242,9 +242,10 @@ button {
 #quick_chk:checked       ~ #page #quick_btn::before  { content: "✔️ "; color: transparent; text-shadow: 0 0 var(--fgcolor) }
 #quick_chk:not(checked)  ~ #page #quick_btn::before  { content: "❌ "; color: transparent; text-shadow: 0 0 var(--fgcolor) }
 
-#txt_chk:not(checked)  ~ #page #txt_btn::before { content: "وضع التسميع: عثماني (لا كتابة)" }
-/* the following content is using NBSP before and after the word "إملائي" */
-#txt_chk:checked       ~ #page #txt_btn::before { content: "وضع التسميع:    إملائي   (كتابة)" }
+/* both contents start with a single NBSP */
+#txt_chk:not(checked)  ~ #page #txt_btn::before { content: " وضع التسميع: عثماني (لا كتابة)" }
+/* this content uses U+2002 EN SPACE before and after the word "إملائي" */
+#txt_chk:checked       ~ #page #txt_btn::before { content: " وضع التسميع: إمــلائي (كتابة)" }
 
 #byword_chk:not(checked) ~ #page #byword_btn #byword_y { display: none }
 #byword_chk:not(checked) ~ #page #byword_btn #byword_n { display: inline }
