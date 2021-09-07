@@ -120,8 +120,22 @@ button:active { filter: brightness(0.75); cursor: pointer }
   background-color: var(--bgcolor);
   color: var(--fgcolor);
 }
-html, body { margin: 0; padding: 0 }
-#page { position: absolute; top: 0; right: 0; min-width: 100%; min-height: 100%; }
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+#page {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100vw;
+  height: 100vh;
+  direction: rtl;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
 h2 { text-align: center }
 button {
   display: inline-block;
