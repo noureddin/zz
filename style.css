@@ -4,6 +4,8 @@ html {  /* light */
   --fgcolor: #222;
   --bgcolor: #e8e8e8;
   --nameclr: #aa0000;
+  --prefbg:  #e0e0e0;
+  --prefbox: hsl(0,0%,70%); /* same as button bg */
   --red:     0 0 0.10em 0.1em #FF0000;
   --lastone: 0 0 0.10em 0.1em #0000FF;
   --focus:   0 0 0.25em 0.1em black;
@@ -14,6 +16,8 @@ html {  /* light */
   --fgcolor: #eee;
   --bgcolor: #222;
   --nameclr: #ff6666;
+  --prefbg:  #333;
+  --prefbox: hsl(0,0%,50%); /* same as button bg */
   --red:     0 0 0.10em 0.15em #FF2222;
   --lastone: 0 0 0.10em 0.15em #8888FF;
   --focus:   0 0 0.25em 0.15em white;
@@ -149,15 +153,16 @@ button {
   border: none;
   font-size: inherit; /* because it defaults to another value */
 }
-#records { margin: 0; margin-top: 0.75em }
-#records button { width: 11em; margin: 0.25em 0.125em; }
+#records { margin-bottom: 0.5em; margin-top: 0.75em }
+#records button { width: 5.75em; margin: 0.25em 0.125em; }
+#records span { display: inline-block; background: none; width: 7em; margin: 0.25em 0.125em; }
 
 #altmode { margin: 0 }
-#altmode button { width: 9.5em; margin: 0.25em 0.125em }
+#altmode button { width: 9.25em; margin: 0.25em 0.125em }
 /* that specific width so that #altmode and #multimode are the same width */
 
-                          .faint { background: #ccc !important; color: #444444 !important; }
-#dark_chk:checked ~ #page .faint { background: #555 !important; color: #d0d0d0 !important; }
+                          .faint { background: hsl(0,0%,80%) !important }
+#dark_chk:checked ~ #page .faint { background: hsl(0,0%,35%) !important }
 
 #multimode {
   position: sticky; top: 0;
@@ -167,7 +172,7 @@ button {
   background: hsl( 90, 100%, 41%);  /* same as ef22 */
   color: black;
   /* box-shadow: 0 0 0.2em 0.1em hsl( 60, 100%, 42%);  /1* same as ef19 *1/ */
-  width: 5.5em;
+  width: 5em;
 }
 
 #dark_chk:checked ~ #page #multimode #multi-start {
@@ -229,10 +234,30 @@ button {
 #prefs button { width: 6em; margin: 0.25em 0.125em; }
 #prefs #quick_btn { width: 12.5em }
 #prefs #byword_btn { width: 12.5em }
-#prefs .mvbtns_btn { display: none; width: 15em }
-#prefs #mvbtns_x   { display: inline-block }
-#prefs #txt_btn { display: inline-block; width: 15em; text-align: right }
-#prefs #mvbtns { display: inline-block }
+#prefs .mvbtns_btn { display: none; width: 12.5em; text-align-last: justify; }
+#prefs #mvbtns_x   { display: inline-block; text-align: right }
+#prefs #txt_btn { display: block; width: 15em; text-align: right; position: relative; z-index: 1 }
+#prefs #mvbtns { display: inline-block; background: none }
+
+.btns_container {
+  background: var(--prefbg);
+  border-radius: 0.25em; /* same as button's */
+  border: 0.05em solid var(--prefbox);
+  width: 21em;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+  padding: 0.25em;
+}
+
+.mode_prefs {
+  padding-top: 1.5em;
+  position: relative;
+  top: -1.5em;
+  z-index: 0;
+  display: none;
+  margin-bottom: -1.25em; /* why is this needed? */
+}
 
 /* all the following contents are followed by U+2003 EM SPACE */
 #dark_chk:checked      ~ #page #dark_btn::before { content: "✔️ "; color: transparent; text-shadow: 0 0 var(--fgcolor) }
@@ -246,6 +271,11 @@ button {
 #txt_chk:not(checked)  ~ #page #txt_btn::before { content: " وضع التسميع: عثماني (لا كتابة)" }
 /* this content uses U+2002 EN SPACE before and after the word "إملائي" */
 #txt_chk:checked       ~ #page #txt_btn::before { content: " وضع التسميع: إمــلائي (كتابة)" }
+
+#txt_chk:not(checked)  ~ #page #uthm_prefs { display: block }
+#txt_chk:not(checked)  ~ #page #imla_prefs { display: none }
+#txt_chk:checked       ~ #page #uthm_prefs { display: none }
+#txt_chk:checked       ~ #page #imla_prefs { display: block }
 
 #byword_chk:not(checked) ~ #page #byword_btn #byword_y { display: none }
 #byword_chk:not(checked) ~ #page #byword_btn #byword_n { display: inline }
