@@ -549,8 +549,8 @@ def fmt_sura(s, rukus):
 
 def decode_contact():
   mia_nomo = d['abc'].href[19:28]
-  d['xyz'].html = mia_nomo + str(ord('_')) + chr(1<<6) + 'moc.liamg'[::-1]
-  d['xyz'].href = d['xyz'].html[13:17] + 'to' + chr(ord('xyz'[1<<1])^0O100) + d['xyz'].html
+  d['xyz'].html = mia_nomo + chr(1<<6) + 'pro' + chr(ord(str(0B100))|0O100) + 'moc.liamno'[::-1]
+  d['xyz'].href = d['xyz'].html[16:20] + 'to' + chr(ord('xyz'[1<<1])^0O100) + d['xyz'].html
   # if you know a better way, please let me know!
 
 def onload():
