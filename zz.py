@@ -22,7 +22,7 @@ def update_otherparams():
   otherparams += '&mv=' + storage['mvbtns']
   otherparams += '&d' if not load_bool('light') else ''
   otherparams += '&c=n' if load_bool('notajweed') else ''
-  otherparams += '&txt' if load_bool('txt') else ''
+  otherparams += '&q=imla' if load_bool('imla') else ''
   otherparams += '&byword' if load_bool('byword') else ''
 
 @bind(d['free'], 'click')
@@ -39,7 +39,7 @@ def update_prefs():
   d['mvbtns_x'].style.display = 'none'
   #
   # checkboxes
-  if 'txt' in storage:         d['txt_chk'].checked = True
+  if 'imla' in storage:        d['imla_chk'].checked = True
   if 'light' in storage:       d['dark_chk'].checked = False
   if 'notajweed' in storage:   d['taj_chk'].checked = False
   if 'noquick' in storage:     d['quick_chk'].checked = False
@@ -647,10 +647,10 @@ def import_(ev):
 
 # prefs buttons {{{1
 
-@bind(d['txt_btn'], 'click')
-def __txt_btn_click(ev):
-  d['txt_chk'].checked ^= 1  # toggle
-  store_bool('txt', d['txt_chk'].checked)
+@bind(d['imla_btn'], 'click')
+def __imla_btn_click(ev):
+  d['imla_chk'].checked ^= 1  # toggle
+  store_bool('imla', d['imla_chk'].checked)
   update_otherparams()
 
 @bind(d['dark_btn'], 'click')
@@ -772,9 +772,9 @@ def zz_show():
 w.zz_show = zz_show
 
 def zz_set_quizmode(v):
-  txt = v == 'txt'
-  d['txt_chk'].checked = txt
-  store_bool('txt', txt)
+  imla = v == 'imla'
+  d['imla_chk'].checked = imla
+  store_bool('imla', imla)
   update_otherparams()
 w.zz_set_quizmode = zz_set_quizmode
 
