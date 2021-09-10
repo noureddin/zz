@@ -8,13 +8,13 @@
 </td><td>
 <div align="left">
 
-Space-repetition system (SRS) for solidifying the memorization of the Quran.  
+A Spaced-repetition system (SRS) for solidifying your memorization of the Quran.  
 Use it at [noureddin.github.io/zz](https://noureddin.github.io/zz).
 
 </div>
 <div align="right" dir="rtl">
 
-تطبيق «تكرار متباعد» لتثبيت حفظ القرآن الكريم.  
+تطبيق «تكرار متباعد» لتثبيت حفظك للقرآن الكريم.  
 استخدمه على [noureddin.github.io/zz](https://noureddin.github.io/zz).
 
 </div>
