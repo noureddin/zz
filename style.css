@@ -236,7 +236,7 @@ button {
 #prefs #byword_btn { width: 12.5em }
 #prefs .mvbtns_btn { display: none; width: 12.5em; text-align-last: justify; }
 #prefs #mvbtns_x   { display: inline-block; text-align: right }
-#prefs #imla_btn { display: block; width: 15em; text-align: right; position: relative; z-index: 1 }
+#prefs #imla_btn { display: block; width: 15em; text-align-last: justify; position: relative; z-index: 1 }
 #prefs #mvbtns { display: inline-block; background: none }
 
 .btns_container {
@@ -267,10 +267,12 @@ button {
 #quick_chk:checked       ~ #page #quick_btn::before  { content: "✔️ "; color: transparent; text-shadow: 0 0 var(--fgcolor) }
 #quick_chk:not(checked)  ~ #page #quick_btn::before  { content: "❌ "; color: transparent; text-shadow: 0 0 var(--fgcolor) }
 
-/* both contents start with a single NBSP */
-#imla_chk:not(checked)  ~ #page #imla_btn::before { content: " وضع التسميع: عثماني (لا كتابة)" }
-/* this content uses U+2002 EN SPACE before and after the word "إملائي" */
-#imla_chk:checked       ~ #page #imla_btn::before { content: " وضع التسميع: إمــلائي (كتابة)" }
+#imla_btn span { display: none }
+
+#imla_chk:not(checked)  ~ #page #uthm_title { display: block }
+#imla_chk:not(checked)  ~ #page #imla_title { display: none }
+#imla_chk:checked       ~ #page #uthm_title { display: none }
+#imla_chk:checked       ~ #page #imla_title { display: block }
 
 #imla_chk:not(checked)  ~ #page #uthm_prefs { display: block }
 #imla_chk:not(checked)  ~ #page #imla_prefs { display: none }
