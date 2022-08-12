@@ -599,6 +599,8 @@ def grade(q):
 
 @bind(d.body, 'keyup')
 def __kb(ev):
+  if d['repeat_btn'].style.display == 'inline-block' and ev.key in ('7', '٧'): return d['repeat_btn'].click()
+  if d['gonext_btn'].style.display == 'inline-block' and ev.key in ('8', '٨'): return d['gonext_btn'].click()
   if d['pop'].hidden:
     return  # only handle keyups on #pop
   if ev.shiftKey or ev.ctrlKey or ev.altKey:
