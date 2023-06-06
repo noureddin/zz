@@ -121,8 +121,10 @@ button:active { filter: brightness(0.75); cursor: pointer }
 * {
   font-family: NotoSansArabicBoldWeb, "Noto Sans Arabic", sans;
   font-weight: bold;
-  background-color: var(--bgcolor);
   color: var(--fgcolor);
+}
+#page {
+  background-color: var(--bgcolor);
 }
 html, body {
   margin: 0;
