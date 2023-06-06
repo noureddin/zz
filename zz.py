@@ -194,6 +194,15 @@ class Mem:
         encode_int(self.interval)   +
         encode_int(self.lastreview - epoch)
       )
+  def jserialize_parameters(self, epoch=0):
+    if not self.ismemoed():
+      return ''
+    return (
+        str(self.repitition) + ' ' +
+        str(round(self.efactor * 1e5)) + ' ' +
+        str(self.interval)   + ' ' +
+        str(self.lastreview - epoch) + '\n'
+      )
   #
   @efactor.setter
   def efactor(self, efactor):
@@ -279,6 +288,34 @@ def serialize(rukuinfo):
       serial += ZERO_CHAR
   #
   return serial
+w.serialize = serialize
+
+def jserialize(rukuinfo):
+  try:
+    epoch = min(r.lastreview for r in rukuinfo if r.ismemoed())
+  except ValueError:  # mostly likely: min() arg is an empty sequence
+    return ''
+  serial = 'ZZX0\n'
+  serial += f'epoch: {epoch}\n'
+  #
+  for sura_idx in range(114):
+    (rr, rukuinfo) = (
+        [ r for r in rukuinfo if r.sura_idx == sura_idx ],
+        [ r for r in rukuinfo if r.sura_idx != sura_idx ])
+    rr = [ r for r in rr if r.ismemoed() ]
+    if len(rr) == 0: continue
+    serial += f'sura {sura_idx + 1:03d}\n'
+    #
+    if len(rukus_of_sura[sura_idx]) == 1:
+      serial += '  ' + rr[0].jserialize_parameters(epoch)
+    else:
+      for r in rr:
+        ruku_num = ruku_idx_of_sura(r.sura_idx, r.ifrom) + 1
+        serial += f'  {ruku_num:3d}  ' + r.jserialize_parameters(epoch)
+  #
+  return serial
+def jser(): return jserialize(rukuinfo)
+w.jser = jser
 
 
 def deserialize(serial):
@@ -322,6 +359,31 @@ def deserialize(serial):
           read_int(), read_ef(), read_int(), read_lr() )
   #
   return rukuinfo
+w.deserialize = deserialize
+
+def jdeserialize(serial):
+  lines = serial.split('\n')
+  if lines[0] != 'ZZX0':
+    return ''
+  epoch = lines[1].split()[1]
+  #
+  rukuinfo = compute_rukuinfo()
+  sura_idx = None
+  for ln in lines[2:]:
+    if ln.startswith('sura '):
+      sura_idx = int(ln[5:]) - 1
+    elif ln.startswith('  '):
+      if len(rukus_of_sura[sura_idx]) == 1:
+        params = map(int, ln.split()); params[1] /= 1e5
+        rukuinfo[rukus_of_sura[sura_idx][0]].set_parameters(params)
+      else:
+        (ruku_num, *params) = map(int, ln.split()); params[1] /= 1e5
+        # print(params[0], type(params[0]))
+        # int(params[0])
+        rukuinfo[rukus_of_sura[sura_idx][ruku_num - 1]].set_parameters(*params)
+  #
+  return rukuinfo
+w.jdes = jdeserialize
 
 # rukuinfo: compute_, save_, load_ {{{1
 
@@ -342,12 +404,14 @@ def compute_rukuinfo():
 
 def save_rukuinfo(rukuinfo):
   storage['rukuinfo'] = serialize(rukuinfo)
+w.save = save_rukuinfo
 
 def load_rukuinfo():
   try:
     return deserialize(storage['rukuinfo'])
   except KeyError:
     return None
+w.load = load_rukuinfo
 
 rukuinfo = load_rukuinfo() or compute_rukuinfo()
 
