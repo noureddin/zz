@@ -239,11 +239,13 @@ button {
 #prefs button span { background-color: inherit }
 #prefs button { width: 6em; margin: 0.25em 0.125em; }
 #prefs #quick_btn { width: 12.5em }
-#prefs #byword_btn { width: 12.5em }
+#prefs #fbrate_btn { width: 12.5em }
 #prefs .mvbtns_btn { display: none; width: 12.5em; text-align-last: justify; }
-#prefs #mvbtns_x   { display: inline-block; text-align: right }
 #prefs #imla_btn { display: block; width: 15em; text-align-last: justify; position: relative; z-index: 1 }
 #prefs #mvbtns { display: inline-block; background: none }
+
+#prefs .fbrate_btn { display: none; width: 12.5em; text-align-last: justify; }
+#prefs #fbrate { display: inline-block; background: none }
 
 .btns_container {
   background: var(--prefbg);
@@ -284,11 +286,6 @@ button {
 #imla_chk:not(checked)  ~ #page #imla_prefs { display: none }
 #imla_chk:checked       ~ #page #uthm_prefs { display: none }
 #imla_chk:checked       ~ #page #imla_prefs { display: block }
-
-#byword_chk:not(checked) ~ #page #byword_btn #byword_y { display: none }
-#byword_chk:not(checked) ~ #page #byword_btn #byword_n { display: inline }
-#byword_chk:checked      ~ #page #byword_btn #byword_y { display: inline }
-#byword_chk:checked      ~ #page #byword_btn #byword_n { display: none }
 
 button {
  user-select: none;  /* because it selects on long tap */

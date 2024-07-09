@@ -25,7 +25,6 @@
   <input type="checkbox" id="dark_chk" checked hidden>
   <input type="checkbox" id="taj_chk" checked hidden>
   <input type="checkbox" id="quick_chk" checked hidden>
-  <input type="checkbox" id="byword_chk" hidden>
 
   <div id="page">
     <details open id="warning"><summary>⚠️&nbsp;&nbsp;تنبيه!&nbsp;&nbsp;⚠️<button role="checkbox" id="warn_show_btn">إظهار</button></summary>
@@ -49,14 +48,17 @@
       <div class="mode_prefs btns_container" id="uthm_prefs">
         <button role="checkbox" id="taj_btn">تَ<span class="qalqala">جْ</span>وِ<span class="madd">ي</span><span class="qalqala">د</span>ٌ</button>
         <div role="listbox" id="mvbtns">
-          <button role="option" class="mvbtns_btn" id="mvbtns_x">&ensp;أزار&ensp;التسميع:</button>
+          <button role="option" class="mvbtns_btn" id="mvbtns_b">&ensp;أزار&ensp;التسميع: أسفل ⬇️&ensp;</button>
           <button role="option" class="mvbtns_btn" id="mvbtns_r">&ensp;أزار&ensp;التسميع: يمين ➡️&ensp;</button>
           <button role="option" class="mvbtns_btn" id="mvbtns_l">&ensp;أزار&ensp;التسميع: يسار ⬅️&ensp;</button>
-          <button role="option" class="mvbtns_btn" id="mvbtns_b">&ensp;أزار&ensp;التسميع: أسفل ⬇️&ensp;</button>
         </div>
       </div>
       <div class="mode_prefs btns_container" id="imla_prefs">
-        <button role="listbox" id="byword_btn">تمييز الأخطاء كل: <span role="option" id="byword_y">كلمة</span><span role="option" id="byword_n">حرف</span></button>
+        <div role="listbox" id="fbrate">
+          <button role="option" class="fbrate_btn" id="fbrate_l">&ensp;تمييز الأخطاء كل:&emsp;حرف&ensp;</button>
+          <button role="option" class="fbrate_btn" id="fbrate_w">&ensp;تمييز الأخطاء كل:&emsp;كلمة&ensp;</button>
+          <button role="option" class="fbrate_btn" id="fbrate_a">&ensp;تمييز الأخطاء كل:&emsp;&ensp;آيـة&ensp;</button>
+        </div>
       </div>
       <button role="checkbox" id="dark_btn">ليلي</button>
       <button role="checkbox" id="quick_btn">زرا التكرار والتالي</button>

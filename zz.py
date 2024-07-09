@@ -21,10 +21,10 @@ def update_otherparams():
   global otherparams
   otherparams = initialparams
   otherparams += '&mv=' + (storage['mvbtns'] if 'mvbtns' in storage else 'b')
-  otherparams += '&d' if not load_bool('light') else '&l'
+  otherparams += '&by=' + (storage['fbrate'] if 'fbrate' in storage else 'l')
+  otherparams += '' if 'dark' not in storage else '&d' if storage['dark'] == 'Y' else '&l'
   otherparams += '&c=n' if load_bool('notajweed') else ''
   otherparams += '&q=imla' if load_bool('imla') else ''
-  otherparams += '&byword' if load_bool('byword') else ''
 
 @bind(d['free'], 'click')
 def __free_click(ev):
@@ -36,13 +36,14 @@ def update_prefs():
   # mvbtns
   mv = storage['mvbtns'] if 'mvbtns' in storage else 'b'
   d['mvbtns_' + mv].style.display = 'inline-block'
-  d['mvbtns_x'].style.display = 'none'
+  # fbrate
+  fb = storage['fbrate'] if 'fbrate' in storage else 'l'
+  d['fbrate_' + fb].style.display = 'inline-block'
   #
   # checkboxes
   if 'imla' in storage:        d['imla_chk'].checked = True
   if 'notajweed' in storage:   d['taj_chk'].checked = False
   if 'noquick' in storage:     d['quick_chk'].checked = False
-  if 'byword' in storage:      d['byword_chk'].checked = True
   # darkmode: following the system, unless overriden
   if 'dark' in storage:        d['dark_chk'].checked = storage['dark'] == 'Y'
   else: d['dark_chk'].checked = w.matchMedia('(prefers-color-scheme: dark)').matches
@@ -879,15 +880,24 @@ def __mvbtns_btn_click(ev):
   d['mvbtns_' + old].style.display = 'none'
   d['mvbtns_' + new].style.display = 'inline-block'
   if new == 'b':
+    if 'mvbtns' in storage:
       del storage['mvbtns']
   else:
       storage['mvbtns'] = new
   update_otherparams()
 
-@bind(d['byword_btn'], 'click')
-def __byword_btn_click(ev):
-  d['byword_chk'].checked ^= 1  # toggle
-  store_bool('byword', d['byword_chk'].checked)
+@bind('#fbrate > button', 'click')
+def __fbrate_btn_click(ev):
+  if   ev.target.id == 'fbrate_l': old = 'l'; new = 'w'
+  elif ev.target.id == 'fbrate_w': old = 'w'; new = 'a'
+  elif ev.target.id == 'fbrate_a': old = 'a'; new = 'l'
+  d['fbrate_' + old].style.display = 'none'
+  d['fbrate_' + new].style.display = 'inline-block'
+  if new == 'l':
+    if 'fbrate' in storage:
+      del storage['fbrate']
+  else:
+      storage['fbrate'] = new
   update_otherparams()
 
 # multi mode buttons {{{1
@@ -995,11 +1005,25 @@ def zz_set_mvbtns(v):
   d['mvbtns_l'].style.display = 'none'
   d['mvbtns_' + v].style.display = 'block'
   if v == 'b':
+    if 'mvbtns' in storage:
       del storage['mvbtns']
   else:
       storage['mvbtns'] = v
   update_otherparams()
 w.zz_set_mvbtns = zz_set_mvbtns
+
+def zz_set_feedbackrate(v):
+  d['fbrate_l'].style.display = 'none'
+  d['fbrate_w'].style.display = 'none'
+  d['fbrate_a'].style.display = 'none'
+  d['fbrate_' + v].style.display = 'block'
+  if v == 'l':
+    if 'fbrate' in storage:
+      del storage['fbrate']
+  else:
+      storage['fbrate'] = v
+  update_otherparams()
+w.zz_set_feedbackrate = zz_set_feedbackrate
 
 def zz_set_title(title):
   set_title(title + ' | ذكر الذكر')
