@@ -40,10 +40,12 @@ def update_prefs():
   #
   # checkboxes
   if 'imla' in storage:        d['imla_chk'].checked = True
-  if 'light' in storage:       d['dark_chk'].checked = False
   if 'notajweed' in storage:   d['taj_chk'].checked = False
   if 'noquick' in storage:     d['quick_chk'].checked = False
   if 'byword' in storage:      d['byword_chk'].checked = True
+  # darkmode: following the system, unless overriden
+  if 'dark' in storage:        d['dark_chk'].checked = storage['dark'] == 'Y'
+  else: d['dark_chk'].checked = w.matchMedia('(prefers-color-scheme: dark)').matches
   #
   # warning
   if 'warn' in storage:
@@ -53,7 +55,7 @@ def update_prefs():
 def load_bool(name):
   return name in storage and bool(storage[name])
 
-def store_bool(name, b):
+def store_bool(name, b=True):
   if b:
     storage[name] = "Y"
   else:
@@ -849,7 +851,7 @@ def __imla_btn_click(ev):
 @bind(d['dark_btn'], 'click')
 def __dark_btn_click(ev):
   d['dark_chk'].checked ^= 1  # toggle
-  store_bool('light', not d['dark_chk'].checked)
+  storage['dark'] = 'Y' if d['dark_chk'].checked else 'N'
   update_otherparams()
 
 @bind(d['taj_btn'], 'click')
@@ -983,7 +985,7 @@ w.zz_set_tajweed = zz_set_tajweed
 
 def zz_set_dark(dark):
   d['dark_chk'].checked = dark
-  store_bool('light', not dark)
+  storage['dark'] = 'Y' if dark else 'N'
   update_otherparams()
 w.zz_set_dark = zz_set_dark
 
