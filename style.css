@@ -3,7 +3,9 @@
 html {  /* light */
   --fgcolor: #222;
   --bgcolor: #e8e8e8;
-  --nameclr: #aa0000;
+  /* --nameclr: #aa0000; */
+  --name-d: #aa0000;
+  --name-k: #008800;
   --prefbg:  #e0e0e0;
   --prefbox: hsl(0,0%,70%); /* same as button bg */
   --red:     0 0 0.10em 0.1em #FF0000;
@@ -15,7 +17,9 @@ html {  /* light */
 #dark_chk:checked ~ * {  /* dark */
   --fgcolor: #eee;
   --bgcolor: #222;
-  --nameclr: #ff6666;
+  /* --nameclr: #ff6666; */
+  --name-d: #ff6666;
+  --name-k: #66c066;
   --prefbg:  #333;
   --prefbox: hsl(0,0%,50%); /* same as button bg */
   --red:     0 0 0.10em 0.15em #FF2222;
@@ -200,7 +204,7 @@ button {
   width: 6.2em;
   padding-right: 1em;
   font-weight: bold;
-  color: var(--nameclr);
+  /* color: var(--nameclr); */
 }
 #recite {
   position: fixed;
@@ -388,3 +392,13 @@ details > summary::-webkit-details-marker { display: none }
 #repeat_btn { bottom: 4rem } /* 0.5 + 3 + 0.5 */
 #gonext_btn { bottom: 0.5rem }
 
+/***/
+/* .t { */
+/*   margin-right: -0.5em; */
+/*   vertical-align: 50%; */
+/*   display: inline-block; */
+/*   width: 1em; */
+/*   text-align: left; */
+/* } */
+.d { color: var(--name-d) }
+.k { color: var(--name-k) }
